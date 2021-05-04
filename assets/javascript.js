@@ -1,11 +1,18 @@
+//to get from local use localStorage.getitem('name')
+
 
 // modal
+
+var searchInput = document.getElementById('input')
+
+console.log(searchInput)
 const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
 
 submitButton.addEventListener("click", (event) => {
     event.preventDefault()
+    localStorage.setItem('name', searchInput.value)
     modal.classList.add('is-active');
 });
 
