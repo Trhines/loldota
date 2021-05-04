@@ -8,13 +8,6 @@ var Name = []
 submitButton.addEventListener("click", (event) => {
     event.preventDefault()
     modal.classList.add('is-active');
-    var inputName = document.getElementsByClassName("input")
-    var input = inputName.value
-    console.log(inputName);
-    var results = JSON.parse(localStorage.getItem("Name"))
-    var newResult = { "input": Name }
-    results.push(newResult);
-    localStorage.setItem(input)
 });
 
 modalBg.addEventListener('click', () => {
