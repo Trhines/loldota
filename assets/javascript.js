@@ -1,5 +1,6 @@
 
 // modal
+const userName = document.getElementById("")
 const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
@@ -99,22 +100,28 @@ function searchProPlayers(searchInput){
 searchProPlayers('sumail')
 
 
-var userName = "user"
-var region = "region"
-var url = (`https://ow-api.com/v1/stats/pc/${region}/${userName}/complete`)
+
+//var url = (`https://ow-api.com/v1/stats/pc/us/${userName}/complete`)
 //fetch(`https://ow-api.com/v1/stats/pc/${region}/${userName}/complete`)
-//fetch(`https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete`)
-fetch(url)
+fetch(`https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete`)
+//fetch(url)
   .then(function (response) {
     return response.json();
   })
   .then(function (data) {
+    console.log(data)
+    console.log(data.competitiveStats.games);
+    console.log(data.competitiveStats.careerStats.allHeroes.average.allDamageDoneAvgPer10Min);
+    console.log(data.gamesWon)
+    console.log(data.competitiveStats.careerStats.allHeroes.weaponAccuracyBestInGame)
+    console.log(data.quickPlayStats.games)
     
-   console.log(data.competitiveStats.games);
-    //console.log(data.competitiveStats.careerStats.allHeroes.average.allDamageDoneAvgPer10Min);
-    //console.log(data.gamesWon)
-    //console.log(data.competitiveStats.careerStats.allHeroes.weaponAccuracyBestInGame)
-    //console.log(data.quickPlayStats.games)
-
   });
-  
+
+
+  function searchPlayers(searchInput){
+    fetch(`https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete`)
+    .then(function (response){
+      return response.json();
+    });
+  }
