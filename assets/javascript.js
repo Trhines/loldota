@@ -17,75 +17,24 @@ function printStats(profileName, leaderBoard, MMR, SoloComp, compRank, gamesWon,
 
 }
 
-//player info https://api.opendota.com/api/players/{accountid} 
-// wins and losses /wl
-// no end -mmr, comp rank, solo rank, leaderboard rank
-
-//requestUrl = 'https://api.opendota.com/api/players/105248644?api_key=6eb1beea-905d-4e5d-96b4-e90090e00a0a'
-
-// fetch('https://api.opendota.com/api/players/105248644?api_key=6eb1beea-905d-4e5d-96b4-e90090e00a0a')
-//   .then(function (response) {
-//     return response.json();
-//   })
-//   .then(function (data) {
-//     console.log(data);
-
-//     console.log(data.profile.name)
-//     console.log(data.leaderboard_rank)
-//     console.log(data.mmr_estimate.estimate)
-//     console.log(data.solo_competitive_rank)
-//     console.log(data.competitive_rank)
-//   });
-
-
-  
-//   fetch('https://api.opendota.com/api/proPlayers?api_key=6eb1beea-905d-4e5d-96b4-e90090e00a0a')
-//   .then(function (response) {
-//     return response.json();
-//   })
-//   .then(function (data) {
-    
-//     console.log(data[1].name)
-//   });
-  //-------------------------------------------------------------------------------------------
-
-
-function searchProPlayers(searchInput){
-    fetch('https://api.opendota.com/api/proPlayers?api_key=6eb1beea-905d-4e5d-96b4-e90090e00a0a')
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      console.log(data)
-          for( i=0; i<data.length; i++){
-            console.log(searchInput)
-              if(data[i].name === searchInput){
-
-
-                  console.log('hit')
-                  console.log(data[i].account_id)
-
-
-                  fetch('https://api.opendota.com/api/players/' + data[i].account_id + '?api_key=6eb1beea-905d-4e5d-96b4-e90090e00a0a')
-                    .then(function (response) {
-                      return response.json();
-                    })
-                    .then(function (data) {
-                      console.log(data);
-
-                      console.log(data.profile.name)
-                      console.log(data.leaderboard_rank)
-                      console.log(data.mmr_estimate.estimate)
-                      console.log(data.solo_competitive_rank)
-                      console.log(data.competitive_rank)
-                    });
-
-                  break
-              }
-          }      
-    });
-}
-
-searchProPlayers('N0tail')
+  fetch('https://fortnite-api.com/v1/stats/br/v2?name=deyy')
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    var name = data.data.account.name
+    var deaths = data.data.stats.all.overall.deaths
+    var kd = data.data.stats.all.overall.kd
+    var kills = data.data.stats.all.overall.kills
+    var score = data.data.stats.all.overall.score
+    var scorePerMatch = data.data.stats.all.overall.scorePerMatch
+    var playersOutLived = data.data.stats.all.overall.playersOutlived
+    var top3 = data.data.stats.all.overall.top3
+    var top5 = data.data.stats.all.overall.top5
+    var top10 = data.data.stats.all.overall.top10
+    var top25 = data.data.stats.all.overall.top25
+    var winrate = data.data.stats.all.overall.winrate
+    var wins = data.data.stats.all.overall.wins
+  });
 
 

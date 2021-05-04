@@ -5,3 +5,7 @@ html{
 .stats{
     color: white;
 }
+
+table{
+    margin: 2em
+}
