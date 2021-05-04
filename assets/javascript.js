@@ -3,16 +3,29 @@
 
 // modal
 
-var searchInput = document.getElementById('input')
 
-console.log(searchInput)
+//make array in local that will hold all recent searches
+var searches = ['name1', 'name2']
+localStorage.setItem('searchHistory', JSON.stringify(searches))
+//JSON.stringify(searches)
+
+
 const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
 
 submitButton.addEventListener("click", (event) => {
     event.preventDefault()
-    localStorage.setItem('name', searchInput.value)
+    searchInput = document.getElementById('input')
+    searches = JSON.parse(localStorage.getItem('searchHistory'))
+    searches.unshift(searchInput.value)
+
+    //create function that dynamically pulls api data
+    populateModal(searchInput.value)  
+
+    localStorage.setItem('searchHistory', searches)
+    
+
     modal.classList.add('is-active');
 });
 
@@ -45,8 +58,7 @@ function printStats(profileName, leaderBoard, MMR, SoloComp, compRank, gamesWon,
     var wins = data.data.stats.all.overall.wins
   });
 
-var userName = "marxe"
-var region = "na"
+//create variable for name and number //input format will be NAME#123456
 var url = ('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
 
 fetch(url)
