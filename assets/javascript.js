@@ -99,3 +99,22 @@ function searchProPlayers(searchInput){
 searchProPlayers('sumail')
 
 
+var userName = "user"
+var region = "region"
+var url = (`https://ow-api.com/v1/stats/pc/${region}/${userName}/complete`)
+//fetch(`https://ow-api.com/v1/stats/pc/${region}/${userName}/complete`)
+//fetch(`https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete`)
+fetch(url)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    
+   console.log(data.competitiveStats.games);
+    //console.log(data.competitiveStats.careerStats.allHeroes.average.allDamageDoneAvgPer10Min);
+    //console.log(data.gamesWon)
+    //console.log(data.competitiveStats.careerStats.allHeroes.weaponAccuracyBestInGame)
+    //console.log(data.quickPlayStats.games)
+
+  });
+  
