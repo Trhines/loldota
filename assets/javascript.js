@@ -11,3 +11,7 @@ submitButton.addEventListener("click", (event) => {
 modalBg.addEventListener('click', () => {
     modal.classList.remove('is-active');
 })
+
+function printStats(profileName, leaderBoard, MMR, SoloComp, compRank, gamesWon, gamesLost, winRate) {
+
+}
