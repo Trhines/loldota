@@ -68,34 +68,34 @@ function searchProPlayers(searchInput){
     .then(function (response) {
       return response.json();
     })
-    .then(function (data) {
-      console.log(data)
-      var found = false
-        while(!found){
-          for( i=0; i<1000; i++){
-            console.log(searchInput)
-              if(data[i].name === searchInput){
-                  console.log('hit')
-                  found = true   
-              }
-          }
-          for( i=1001; i<2000; i++){
-            console.log(searchInput)
-              if(data[i].name === searchInput){
-                  console.log('hit')
-                  found = true   
-              }
-          }
-          for( i=2001; i<data.length; i++){
-            console.log(searchInput)
-              if(data[i].name === searchInput){
-                  console.log('hit')
-                  found = true   
-              }
-          }
-        }
-    });
-}
+    //.then(function (data) {
+      //console.log(data)
+    // var// found = false
+       // wh//ile(!found){
+         // fo//r( i=0; i<100; i++){
+           // co//nsole.log(searchInput)
+              //if//(data[i].name === searchInput){
+                  //console.log('hit')
+                 // found = true   
+              //}
+          //}
+         // for( i=1001; i<2000; i++){
+           // console.log(searchInput)
+             // if(data[i].name === searchInput){
+               //   console.log('hit')
+                 // found = true   
+       / //      }
+        / //// }
+         // /for( i=2001; i<data.length; i++){
+           // console.log(searchInput)
+            //  if(data[i].name === searchInput){
+             //     console.log('hit')
+              //    found = true   
+              }//
+          //}
+        //}
+    //});
+//}
 
 searchProPlayers('sumail')
 
