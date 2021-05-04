@@ -23,6 +23,7 @@ modalBg.addEventListener('click', () => {
 function printStats(profileName, leaderBoard, MMR, SoloComp, compRank, gamesWon, gamesLost, winRate) {
 
 }
+
 //replace deyy with a variable for search input
   fetch('https://fortnite-api.com/v1/stats/br/v2?name=deyy')
   .then(function (response) {
@@ -43,7 +44,6 @@ function printStats(profileName, leaderBoard, MMR, SoloComp, compRank, gamesWon,
     var winrate = data.data.stats.all.overall.winrate
     var wins = data.data.stats.all.overall.wins
   });
-
 
 var userName = "marxe"
 var region = "na"
