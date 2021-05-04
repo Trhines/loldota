@@ -16,7 +16,7 @@ modalBg.addEventListener('click', () => {
 function printStats(profileName, leaderBoard, MMR, SoloComp, compRank, gamesWon, gamesLost, winRate) {
 
 }
-
+//replace deyy with a variable for search input
   fetch('https://fortnite-api.com/v1/stats/br/v2?name=deyy')
   .then(function (response) {
     return response.json();
@@ -35,6 +35,37 @@ function printStats(profileName, leaderBoard, MMR, SoloComp, compRank, gamesWon,
     var top25 = data.data.stats.all.overall.top25
     var winrate = data.data.stats.all.overall.winrate
     var wins = data.data.stats.all.overall.wins
+  });
+
+
+var userName = "marxe"
+var region = "na"
+var url = ('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
+
+fetch(url)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    
+    console.log(data)
+
+    var compCard = data.competitiveStats.awards.cards
+    var compMedals = data.competitiveStats.awards.medals
+    var compBronze = data.competitiveStats.awards.medalsBronze
+    var compSilver = data.competitiveStats.awards.medalsSilver
+    var compGold = data.competitiveStats.awards.medalsGold
+    var compGamesPlayed = data.competitiveStats.games.played
+    var compGamesWon = data.competitiveStats.games.won
+
+    var quickCards = data.quickPlayStats.awards.cards
+    var quickMedals = data.quickPlayStats.awards.medals
+    var quickBronze = data.quickPlayStats.awards.medalsBronze
+    var quickSilver = data.quickPlayStats.awards.medalsSilver
+    var quickGold = data.quickPlayStats.awards.medalsGold
+    var quickGamesPlayed = data.quickPlayStats.games.played
+    var quickGamesWon = data.quickPlayStats.games.won
+
   });
 
 
