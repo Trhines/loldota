@@ -1,4 +1,5 @@
 //to get from local use localStorage.getitem('name')
+// new push
 
 
 // modal
