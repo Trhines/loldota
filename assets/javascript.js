@@ -15,28 +15,28 @@ const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
 
-submitButton.addEventListener("click", (event) => 
+submitButton.addEventListener("click", (event) =>
     event.preventDefault()
     searchInput = document.getElementById('input');
-    var chooseGame = document.querySelector(".button")
-    console.log()
-    callAPI(chooseGame.textContent, searchInput.value);
-    searches = JSON.parse(localStorage.getItem('searchHistory'))
-    searches.unshift(searchInput.value)
+var chooseGame = document.querySelector(".button")
+console.log()
+callAPI(chooseGame.textContent, searchInput.value);
+searches = JSON.parse(localStorage.getItem('searchHistory'))
+searches.unshift(searchInput.value)
 
-    //create function that dynamically pulls api data
-    // populateModal(searchInput.value)
+//create function that dynamically pulls api data
+// populateModal(searchInput.value)
 
-    localStorage.setItem('searchHistory', JSON.stringify(searches))
+localStorage.setItem('searchHistory', JSON.stringify(searches))
 
-    //event.preventDefault()
-    searchInput = document.getElementById('input')
-    var displayed = false
-    updateHistory(searchInput.value, gametype, displayed)
-    //retreives histroy, adds new search, and updates storage
+//event.preventDefault()
+searchInput = document.getElementById('input')
+var displayed = false
+updateHistory(searchInput.value, gametype, displayed)
+//retreives histroy, adds new search, and updates storage
 
-    modal.classList.add('is-active');
-    populateTable()
+modal.classList.add('is-active');
+populateTable()
 
 });
 
@@ -47,51 +47,51 @@ modalBg.addEventListener('click', () => {
 
 
 //creates storage array if one does not exist already
-function onRefresh(){
-    if(!localStorage.getItem('searchHistory')){
-      searches = []
-      localStorage.setItem('searchHistory', JSON.stringify(searches))
-      console.log('created array')
+function onRefresh() {
+    if (!localStorage.getItem('searchHistory')) {
+        searches = []
+        localStorage.setItem('searchHistory', JSON.stringify(searches))
+        console.log('created array')
     }
-    else{
-      console.log('array exists')
+    else {
+        console.log('array exists')
 
-      data = JSON.parse(localStorage.getItem('searchHistory'))
+        data = JSON.parse(localStorage.getItem('searchHistory'))
 
-      data.forEach(element => {
-        element.shown = false
-        console.log(data)
-      })
+        data.forEach(element => {
+            element.shown = false
+            console.log(data)
+        })
     }
 }
-  //updates histroy in local storage, pass in new string
-  //add dupe checking
-function updateHistory(name, game, shown){
-  searches = JSON.parse(localStorage.getItem('searchHistory'))
-  var newObj = {name, game, shown}
-  searches.unshift(newObj)
-  localStorage.setItem('searchHistory', JSON.stringify(searches))
+//updates histroy in local storage, pass in new string
+//add dupe checking
+function updateHistory(name, game, shown) {
+    searches = JSON.parse(localStorage.getItem('searchHistory'))
+    var newObj = { name, game, shown }
+    searches.unshift(newObj)
+    localStorage.setItem('searchHistory', JSON.stringify(searches))
 }
 
 
-function populateTable(){
-  tableContent = JSON.parse(localStorage.getItem('searchHistory'))
-  //replace console log with loop that appends new elements to dom
-  var table = document.getElementById('tableBody')
-  
+function populateTable() {
+    tableContent = JSON.parse(localStorage.getItem('searchHistory'))
+    //replace console log with loop that appends new elements to dom
+    var table = document.getElementById('tableBody')
 
-  tableContent.forEach(element => {
-    if (element.shown == false){
-    var newRow = document.createElement("TR")
-    var tableName = document.createElement("TD")
-    var tableGame = document.createElement("TD")
-    table.appendChild(newRow)
-    newRow.appendChild(tableName)
-    tableName.textContent = element.name
-    newRow.appendChild(tableGame)
-    tableGame.textContent = element.game
-    }
-  })
+
+    tableContent.forEach(element => {
+        if (element.shown == false) {
+            var newRow = document.createElement("TR")
+            var tableName = document.createElement("TD")
+            var tableGame = document.createElement("TD")
+            table.appendChild(newRow)
+            newRow.appendChild(tableName)
+            tableName.textContent = element.name
+            newRow.appendChild(tableGame)
+            tableGame.textContent = element.game
+        }
+    })
 }
 
 
