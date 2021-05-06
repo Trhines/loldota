@@ -65,7 +65,7 @@ function getFort() {
             }
         });
 }
-submitButton.addEventListener('click', getFort);
+submitButton.addEventListener('click', getFort)
 
 //create variable for name and number //input format will be NAME#123456
 function getAPI() {
