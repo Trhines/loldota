@@ -14,28 +14,28 @@ const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
 
-submitButton.addEventListener("click", (event) => 
+submitButton.addEventListener("click", (event) =>
     event.preventDefault()
     searchInput = document.getElementById('input');
-    var chooseGame = document.querySelector(".button")
-    console.log()
-    callAPI(chooseGame.textContent, searchInput.value);
-    searches = JSON.parse(localStorage.getItem('searchHistory'))
-    searches.unshift(searchInput.value)
+var chooseGame = document.querySelector(".button")
+console.log()
+callAPI(chooseGame.textContent, searchInput.value);
+searches = JSON.parse(localStorage.getItem('searchHistory'))
+searches.unshift(searchInput.value)
 
-    //create function that dynamically pulls api data
-    // populateModal(searchInput.value)
+//create function that dynamically pulls api data
+// populateModal(searchInput.value)
 
-    localStorage.setItem('searchHistory', JSON.stringify(searches))
+localStorage.setItem('searchHistory', JSON.stringify(searches))
 
-    //event.preventDefault()
-    searchInput = document.getElementById('input')
-    var newObj = {name: searchInput.value, game: gametype}
-    updateHistory(searchInput.value, gametype)
-    //retreives histroy, adds new search, and updates storage
+//event.preventDefault()
+searchInput = document.getElementById('input')
+var newObj = { name: searchInput.value, game: gametype }
+updateHistory(searchInput.value, gametype)
+//retreives histroy, adds new search, and updates storage
 
-    modal.classList.add('is-active');
-    populateTable()
+modal.classList.add('is-active');
+populateTable()
 
 });
 
@@ -63,8 +63,8 @@ function getAPI() {
             var compGold = data.competitiveStats.awards.medalsGold
             var compGamesPlayed = data.competitiveStats.games.played
             var compGamesWon = data.competitiveStats.games.won
-            
-            
+
+
             var quickCards = data.quickPlayStats.awards.cards
             var quickMedals = data.quickPlayStats.awards.medals
             var quickBronze = data.quickPlayStats.awards.medalsBronze
@@ -73,33 +73,33 @@ function getAPI() {
             var quickGamesPlayed = data.quickPlayStats.games.played
             var quickGamesWon = data.quickPlayStats.games.won
 
-//creates storage array if one does not exist already
-function onRefresh(){
-    if(!localStorage.getItem('searchHistory')){
-      searches = []
-      localStorage.setItem('searchHistory', JSON.stringify(searches))
-      console.log('created array')
-    }
-    else{
-      console.log('array exists')
-      return;
-    }
-}
-  //updates histroy in local storage, pass in new string
-  //add dupe checking
-function updateHistory(newEntry){
-  searches = JSON.parse(localStorage.getItem('searchHistory'))
-  searches.unshift(newEntry)
-  localStorage.setItem('searchHistory', JSON.stringify(searches))
-}
+            //creates storage array if one does not exist already
+            function onRefresh() {
+                if (!localStorage.getItem('searchHistory')) {
+                    searches = []
+                    localStorage.setItem('searchHistory', JSON.stringify(searches))
+                    console.log('created array')
+                }
+                else {
+                    console.log('array exists')
+                    return;
+                }
+            }
+            //updates histroy in local storage, pass in new string
+            //add dupe checking
+            function updateHistory(newEntry) {
+                searches = JSON.parse(localStorage.getItem('searchHistory'))
+                searches.unshift(newEntry)
+                localStorage.setItem('searchHistory', JSON.stringify(searches))
+            }
 
-function populateTable(){
-  tableContent = JSON.parse(localStorage.getItem('searchHistory'))
-  //replace console log with loop that appends new elements to dom
+            function populateTable() {
+                tableContent = JSON.parse(localStorage.getItem('searchHistory'))
+                //replace console log with loop that appends new elements to dom
 
-  tableContent.forEach(element => console.log(element))
+                tableContent.forEach(element => console.log(element))
 
-        });
+            });
 }
 
 // when clicked, button will dropdown
