@@ -7,7 +7,6 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="./assets/style.css" />
-    
 </head>
 
 <body>
@@ -70,13 +69,31 @@
                     <form>
                         <div class="media-content">
                             <label for="playerName">User Name:</label><br>
-                            <input class="input is-small"  id="searchBar" type="text" placeholder="Text input">
-                            <input type="checkbox" id="dota1" name="dota1" value="Dota">
-                            <label for="dota1">Dota</label>
-                            <input type="checkbox" id="overwatch" name="overwatch" value="overwatch">
-                            <label for="dota1">Overwatch</label>
+                            <input class="input is-small" id='input' type="text" placeholder="Text input">
+                            <div class="dropdown is-hoverable">
+                                <div class="dropdown-trigger">
+                                    <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu">
+                                        <span>Choose Game</span>
+                                        <span class="icon is-small">
+                                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <a href="#" class="dropdown-item">
+                                            Fornite
+                                        </a>
+                                        <a class="dropdown-item">
+                                            Overwatch
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
                             <button class="button is-small" id="submit">Submit</button><br>
                         </div>
+                    </form>
 
                 </div>
 
@@ -91,25 +108,45 @@
     </div>
     </section>
 
+    <section>
+        <table class='table is-striped is-fullwidth'>
+            <thead>
+                <tr>
+                    <th>rank</th>
+                    <th>name</th>
+                    <th>mmr</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>joe mama</td>
+                    <td>42069</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
     <div class="modal">
         <div class="modal-background">
             <div class="modal-content has-background-black py-5 px-5">
                 <ul class="stats" style="line-height: 180%">
-                    <li id="username"></li>
-            
-                    <li id="stats"></li>
-                    <li id="">MMR:</li>
+                    <li>Profile Name:</li>
+                    <li>Leaderboard Rank:</li>
+                    <li>MMR:</li>
                     <li>Solo Comp Rank:</li>
                     <li>Comp Rank:</li>
-                    <li id="gamesWon">Games Won:</li>
-                    <li id="gamesLost">Games Lost:</li>
-                    <li id="">Win Rate:</li>
+                    <li>Games Won:</li>
+                    <li>Games Lost:</li>
+                    <li>Win Rate:</li>
                 </ul>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
     <script src="./assets/javascript.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+    <script src="assets\javascript.js"></script>
 </body>
 
 </html>
