@@ -1,13 +1,14 @@
 //to get from local use localStorage.getitem('name')
+// new push
 
 
 // modal
+var input = document.querySelector("#input")
 
 
-//make array in local that will hold all recent searches
-var searches = ['name1', 'name2']
-localStorage.setItem('searchHistory', JSON.stringify(searches))
-//JSON.stringify(searches)
+
+onRefresh()
+populateTable()
 
 
 const submitButton = document.querySelector("#submit");
@@ -17,85 +18,163 @@ const modal = document.querySelector(".modal");
 
 
 submitButton.addEventListener("click", (event) => {
-    event.preventDefault()
-    getOw()
-    searchInput = document.getElementById('input')
-    searches = JSON.parse(localStorage.getItem('searchHistory'))
-    searches.unshift(searchInput.value)
+    var searchInput = document.getElementById('input');
+    var chooseGame = document.querySelector(".button")
+    callAPI(chooseGame.textContent, searchInput.value);
 
+    var displayed = false
+    updateHistory(searchInput.value, chooseGame.textContent, displayed)
 
     localStorage.setItem('searchHistory', JSON.stringify(searches))
     modal.classList.add('is-active');
+    populateTable()
+
 });
 
 modalBg.addEventListener('click', () => {
     modal.classList.remove('is-active');
 })
 
+// when clicked, button will dropdown
+const menu = document.getElementById('dropdown');
+menu.addEventListener('click', e => {
+    e.preventDefault()
+    e.stopPropagation();
+    menu.classList.toggle('is-active')
+})
+document.addEventListener('click', () => {
+    menu.classList.remove('is-active')
+})
+const dropItem = document.querySelectorAll(".dropdown-item")
+const button = document.querySelector(".button")
 
-//replace deyy with a variable for search input
-  fetch('https://fortnite-api.com/v1/stats/br/v2?name=deyy')
-  .then(function (response) {
-    return response.json();
+
+dropItem.forEach(o => {
+    o.addEventListener("click", (event) => {
+        console.log(o)
+        button.textContent = o.textContent
+        menu.classList.remove('is-active')
+    })
+})
+
+
+
+//creates storage array if one does not exist already
+function onRefresh(){
+    if(!localStorage.getItem('searchHistory')){
+      searches = []
+      localStorage.setItem('searchHistory', JSON.stringify(searches))
+      console.log('created array')
+    }
+    else{
+      console.log('array exists')
+
+      data = JSON.parse(localStorage.getItem('searchHistory'))
+
+      data.forEach(element => {
+        element.shown = false
+        console.log(data)
+      })
+    }
+}
+  //updates histroy in local storage, pass in new string
+  //add dupe checking
+function updateHistory(name, game, shown){
+  searches = JSON.parse(localStorage.getItem('searchHistory'))
+  var newObj = {name, game, shown}
+  searches.unshift(newObj)
+  localStorage.setItem('searchHistory', JSON.stringify(searches))
+}
+
+
+function populateTable(){
+  tableContent = JSON.parse(localStorage.getItem('searchHistory'))
+  var table = document.getElementById('tableBody')
+  
+  tableContent.forEach(element => {
+    if (element.shown == false){
+    var newRow = document.createElement("TR")
+    var tableName = document.createElement("TD")
+    var tableGame = document.createElement("TD")
+    table.appendChild(newRow)
+    newRow.appendChild(tableName)
+    tableName.textContent = element.name
+    newRow.appendChild(tableGame)
+    tableGame.textContent = element.game
+    }
   })
-  .then(function (data) {
-    var name = data.data.account.name
-    var deaths = data.data.stats.all.overall.deaths
-    var kd = data.data.stats.all.overall.kd
-    var kills = data.data.stats.all.overall.kills
-    var score = data.data.stats.all.overall.score
-    var scorePerMatch = data.data.stats.all.overall.scorePerMatch
-    var playersOutLived = data.data.stats.all.overall.playersOutlived
-    var top3 = data.data.stats.all.overall.top3
-    var top5 = data.data.stats.all.overall.top5
-    var top10 = data.data.stats.all.overall.top10
-    var top25 = data.data.stats.all.overall.top25
-    var winrate = data.data.stats.all.overall.winrate
-    var wins = data.data.stats.all.overall.wins
-  });
+}
 
-  function getOw() {
-    var url = (`https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete`)
+// function that calls the api for each video game
+function callAPI(game, search) {
+    console.log(game)
 
-    fetch(url)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-
-            console.log(data)
+    if (game == "Fortnite") {
         
-         function List(elem,data){
-          console.log(elem)
-         console.log(data)
-          for( let i=0; i <data.length; i++){
-            const li = document.createElement("li");
-            li.textContent= data[i];
-            elem.appendChild(li);
-          }
-        }
-         const things = document.getElementById('list');
-       List(things,[compCard ="cards: " + data.competitiveStats.awards.cards,
-                    compMedals= "medals: " + data.competitiveStats.awards.medals,
-                    compBronze= "Broze Medals: " + data.competitiveStats.awards.medalsBronze, 
-                    compSilver= "Silver Medals: " + data.competitiveStats.awards.medalsSilver, 
-                    compGold= "Glod Medals: " + data.competitiveStats.awards.medalsGold,
-                    compGamesPlayed= "Competition Games Played: " + data.competitiveStats.games.played, 
-                    compGamesWon= "Competition Games Won: " + data.competitiveStats.games.won
-                  ]);
+        fetch(`https://fortnite-api.com/v1/stats/br/v2?name=${search}`)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log(data)
+                for (var i = 0; i < data.length; i++) {
+                    var name = data.data.account.name
+                    var deaths = data.data.stats.all.overall.deaths
+                    var kd = data.data.stats.all.overall.kd
+                    var kills = data.data.stats.all.overall.kills
+                    var score = data.data.stats.all.overall.score
+                    var scorePerMatch = data.data.stats.all.overall.scorePerMatch
+                    var playersOutLived = data.data.stats.all.overall.playersOutlived
+                    var top3 = data.data.stats.all.overall.top3
+                    var top5 = data.data.stats.all.overall.top5
+                    var top10 = data.data.stats.all.overall.top10
+                    var top25 = data.data.stats.all.overall.top25
+                    var winrate = data.data.stats.all.overall.winrate
+                    var wins = data.data.stats.all.overall.wins
+
+                }
+                if (game === "Overwatch") {
+                    //call overwatch api
+
+                    fetch('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
+                        .then(function (response) {
+                            return response.json();
+                        })
+                        .then(function (data) {
+                          function List(elem,data){
+                            console.log(elem)
+                           console.log(data)
+                            for( let i=0; i <data.length; i++){
+                              const li = document.createElement("li");
+                              li.textContent= data[i];
+                              elem.appendChild(li);
+                            }
+                          }
+
+                            console.log(data)
+
+                            var compCard = data.competitiveStats.awards.cards
+                            var compMedals = data.competitiveStats.awards.medals
+                            var compBronze = data.competitiveStats.awards.medalsBronze
+                            var compSilver = data.competitiveStats.awards.medalsSilver
+                            var compGold = data.competitiveStats.awards.medalsGold
+                            var compGamesPlayed = data.competitiveStats.games.played
+                            var compGamesWon = data.competitiveStats.games.won
 
 
-            
-            
-            
-            var quickCards = data.quickPlayStats.awards.cards
-            var quickMedals = data.quickPlayStats.awards.medals
-            var quickBronze = data.quickPlayStats.awards.medalsBronze
-            var quickSilver = data.quickPlayStats.awards.medalsSilver
-            var quickGold = data.quickPlayStats.awards.medalsGold
-            var quickGamesPlayed = data.quickPlayStats.games.played
-            var quickGamesWon = data.quickPlayStats.games.won
- 
-          })}
 
-          
+                            var quickCards = data.quickPlayStats.awards.cards
+                            var quickMedals = data.quickPlayStats.awards.medals
+                            var quickBronze = data.quickPlayStats.awards.medalsBronze
+                            var quickSilver = data.quickPlayStats.awards.medalsSilver
+                            var quickGold = data.quickPlayStats.awards.medalsGold
+                            var quickGamesPlayed = data.quickPlayStats.games.played
+                            var quickGamesWon = data.quickPlayStats.games.won
+
+                        })
+                }
+
+
+            })
+    }
+}
