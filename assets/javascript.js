@@ -4,10 +4,9 @@
 // modal
 
 
-//make array in local that will hold all recent searches
-var searches = ['name1', 'name2']
-localStorage.setItem('searchHistory', JSON.stringify(searches))
-//JSON.stringify(searches)
+
+onRefresh()
+var gametype = 'ovw'
 
 
 const submitButton = document.querySelector("#submit");
@@ -15,18 +14,14 @@ const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
 
 submitButton.addEventListener("click", (event) => {
-    event.preventDefault()
+    //event.preventDefault()
     searchInput = document.getElementById('input')
-    searches = JSON.parse(localStorage.getItem('searchHistory'))
-    searches.unshift(searchInput.value)
-
-    //create function that dynamically pulls api data
-    populateModal(searchInput.value)  
-
-    localStorage.setItem('searchHistory', searches)
-    
-
+    var newObj = {name: searchInput.value, game: gametype}
+    updateHistory(searchInput.value, gametype)
+    //retreives histroy, adds new search, and updates storage
     modal.classList.add('is-active');
+    populateTable()
+
 });
 
 modalBg.addEventListener('click', () => {
@@ -87,4 +82,29 @@ fetch(url)
 
   });
 
+//creates storage array if one does not exist already
+function onRefresh(){
+    if(!localStorage.getItem('searchHistory')){
+      searches = []
+      localStorage.setItem('searchHistory', JSON.stringify(searches))
+      console.log('created array')
+    }
+    else{
+      console.log('array exists')
+      return;
+    }
+}
+  //updates histroy in local storage, pass in new string
+  //add dupe checking
+function updateHistory(newEntry){
+  searches = JSON.parse(localStorage.getItem('searchHistory'))
+  searches.unshift(newEntry)
+  localStorage.setItem('searchHistory', JSON.stringify(searches))
+}
 
+function populateTable(){
+  tableContent = JSON.parse(localStorage.getItem('searchHistory'))
+  //replace console log with loop that appends new elements to dom
+
+  tableContent.forEach(element => console.log(element))
+}
