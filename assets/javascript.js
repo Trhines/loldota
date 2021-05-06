@@ -7,6 +7,7 @@ var input = document.querySelector("#input")
 
 
 onRefresh()
+populateTable()
 var gametype = 'ovw'
 
 
@@ -17,8 +18,8 @@ const modal = document.querySelector(".modal");
 submitButton.addEventListener("click", (event) => {
     //event.preventDefault()
     searchInput = document.getElementById('input')
-    var newObj = {name: searchInput.value, game: gametype}
-    updateHistory(searchInput.value, gametype)
+    var displayed = false
+    updateHistory(searchInput.value, gametype, displayed)
     //retreives histroy, adds new search, and updates storage
     modal.classList.add('is-active');
     populateTable()
@@ -60,10 +61,10 @@ function getFort() {
             }
         });
 }
-submitButton.addEventListener('click', getFort)
+
 
 //create variable for name and number //input format will be NAME#123456
-function getAPI() {
+
     var url = ('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
 
     fetch(url)
@@ -90,6 +91,8 @@ function getAPI() {
             var quickGold = data.quickPlayStats.awards.medalsGold
             var quickGamesPlayed = data.quickPlayStats.games.played
             var quickGamesWon = data.quickPlayStats.games.won
+        })
+
 
 //creates storage array if one does not exist already
 function onRefresh(){
@@ -100,22 +103,46 @@ function onRefresh(){
     }
     else{
       console.log('array exists')
-      return;
+
+      data = JSON.parse(localStorage.getItem('searchHistory'))
+
+      data.forEach(element => {
+        element.shown = false
+        console.log(data)
+      })
     }
 }
   //updates histroy in local storage, pass in new string
   //add dupe checking
-function updateHistory(newEntry){
+function updateHistory(name, game, shown){
   searches = JSON.parse(localStorage.getItem('searchHistory'))
-  searches.unshift(newEntry)
+  var newObj = {name, game, shown}
+  searches.unshift(newObj)
   localStorage.setItem('searchHistory', JSON.stringify(searches))
 }
+
 
 function populateTable(){
   tableContent = JSON.parse(localStorage.getItem('searchHistory'))
   //replace console log with loop that appends new elements to dom
+  var table = document.getElementById('tableBody')
+  
 
-  tableContent.forEach(element => console.log(element))
-
-        });
+  tableContent.forEach(element => {
+    if (element.shown == false){
+    var newRow = document.createElement("TR")
+    var tableName = document.createElement("TD")
+    var tableGame = document.createElement("TD")
+    table.appendChild(newRow)
+    newRow.appendChild(tableName)
+    tableName.textContent = element.name
+    newRow.appendChild(tableGame)
+    tableGame.textContent = element.game
+    }
+  })
 }
+
+function myFuncton(){
+  console.log("yo")
+}
+
