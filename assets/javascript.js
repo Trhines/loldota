@@ -1,13 +1,38 @@
 
 // modal
-const userName = document.getElementById("")
 const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
+let userName = "";
 
 submitButton.addEventListener("click", (event) => {
     event.preventDefault()
     modal.classList.add('is-active');
+    userName = $("#searchBar").val();
+    const isOw = $("#overwatch").prop('checked');
+    console.log(isOw)
+    if(isOw === "overwatch"){
+      fetch(`https://ow-api.com/v1/stats/pc/us/${userName}/complete`)
+      .then(function (response) {
+        return response.json();
+        
+      })
+      
+    
+      .then(function (data) {
+        console.log(data)
+        console.log(data.competitiveStats);
+        console.log(data.competitiveStats.careerStats.allHeroes.average.allDamageDoneAvgPer10Min);
+        console.log(data.gamesWon)//.eliminationsAvgPer10Min)
+        console.log(data.competitiveStats.careerStats.allHeroes)
+        console.log(data.quickPlayStats.games)
+        $('#stats').text('Leaderboard; ' + data.competitiveStats.careerStats.allHeroes.average.allDamageDoneAvgPer10Min) 
+      }
+      )
+    } else{
+      // this where dota goes
+    }
+    
 });
 
 modalBg.addEventListener('click', () => {
@@ -101,27 +126,6 @@ searchProPlayers('sumail')
 
 
 
-//var url = (`https://ow-api.com/v1/stats/pc/us/${userName}/complete`)
+
+
 //fetch(`https://ow-api.com/v1/stats/pc/${region}/${userName}/complete`)
-fetch(`https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete`)
-//fetch(url)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    console.log(data)
-    console.log(data.competitiveStats.games);
-    console.log(data.competitiveStats.careerStats.allHeroes.average.allDamageDoneAvgPer10Min);
-    console.log(data.gamesWon)
-    console.log(data.competitiveStats.careerStats.allHeroes.weaponAccuracyBestInGame)
-    console.log(data.quickPlayStats.games)
-    
-  });
-
-
-  function searchPlayers(searchInput){
-    fetch(`https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete`)
-    .then(function (response){
-      return response.json();
-    });
-  }
