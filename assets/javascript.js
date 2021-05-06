@@ -15,7 +15,10 @@ const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
 
+
+
 submitButton.addEventListener("click", (event) => {
+    event.preventDefault()
     var searchInput = document.getElementById('input');
     var chooseGame = document.querySelector(".button")
     callAPI(chooseGame.textContent, searchInput.value);
@@ -23,13 +26,21 @@ submitButton.addEventListener("click", (event) => {
     var displayed = false
     updateHistory(searchInput.value, chooseGame.textContent, displayed)
 
+    localStorage.setItem('searchHistory', JSON.stringify(searches))
     modal.classList.add('is-active');
     populateTable()
 
 });
 
-modalBg.addEventListener('click', () => {
+  modalBg.addEventListener('click', () => {
     modal.classList.remove('is-active');
+    
+   while (document.getElementById('list').firstChild){
+     document.getElementById('list').removeChild(document.getElementById('list').lastChild)
+   }
+
+    
+
 })
 
 // when clicked, button will dropdown
@@ -51,6 +62,8 @@ dropItem.forEach(o => {
         console.log(o)
         button.textContent = o.textContent
         menu.classList.remove('is-active')
+        
+        console.log(dropItem)
     })
 })
 
@@ -116,9 +129,10 @@ function populateTable(){
 
 // function that calls the api for each video game
 function callAPI(game, search) {
-    console.log(game)
-    game === "Overwatch"
-    if (game == "Fortnite") {
+    console.log(search)
+
+    if (game == "Fortnite" ) {
+
         
         fetch(`https://fortnite-api.com/v1/stats/br/v2?name=${search}`)
             .then(function (response) {
@@ -126,57 +140,81 @@ function callAPI(game, search) {
             })
             .then(function (data) {
                 console.log(data)
-                for (var i = 0; i < data.length; i++) {
-                    var name = data.data.account.name
-                    var deaths = data.data.stats.all.overall.deaths
-                    var kd = data.data.stats.all.overall.kd
-                    var kills = data.data.stats.all.overall.kills
-                    var score = data.data.stats.all.overall.score
-                    var scorePerMatch = data.data.stats.all.overall.scorePerMatch
-                    var playersOutLived = data.data.stats.all.overall.playersOutlived
-                    var top3 = data.data.stats.all.overall.top3
-                    var top5 = data.data.stats.all.overall.top5
-                    var top10 = data.data.stats.all.overall.top10
-                    var top25 = data.data.stats.all.overall.top25
-                    var winrate = data.data.stats.all.overall.winrate
-                    var wins = data.data.stats.all.overall.wins
-
+                function List(elem,data){
+                  console.log(elem)
+                 console.log(data)
+                  for( let i=0; i <data.length; i++){
+                    var li = document.createElement("li");
+                    li.textContent= data[i];
+                    elem.appendChild(li);
+                  }
                 }
+
+                var things = document.getElementById('list');
+                List(things,[name = "name: " + data.data.account.name,
+                             deaths= "Deaths: " + data.data.stats.all.overall.deaths,
+                             kd = "k/d: " + data.data.stats.all.overall.kd,
+                             kills = "kills: " + data.data.stats.all.overall.kills,
+                             score = "Score: " + data.data.stats.all.overall.score,
+                             scorePerMatch = "Score Per Match: " + data.data.stats.all.overall.scorePerMatch,
+                             playersOutLived = "Players OutLived: " + data.data.stats.all.overall.playersOutlived,
+                             top3 = "Top 3: " + data.data.stats.all.overall.top3,
+                             top5 = "Top 5: " + data.data.stats.all.overall.top5,
+                             top10 = "Top 10: " + data.data.stats.all.overall.top10,
+                             top25 = "Top 25: " + data.data.stats.all.overall.top25,
+                             winrate = "WinRate: " + data.data.stats.all.overall.winrate,
+                             wins = "Overll Wins: " + data.data.stats.all.overall.wins
+                           ])});
+                          
+                          }
+                          else if (game == "Overwatch") {
+                    //call overwatch api
+            console.log(game)
+                    fetch(`https://ow-api.com/v1/stats/pc/us/${search}/complete`)
+                    
+
                 if (game == "Overwatch") {
                     //call overwatch api
                     //search gets two parts
                     //name = user
                     //id = number
                     fetch('https://ow-api.com/v1/stats/pc/us/'+name+'-'+id+'/complete')
+
                         .then(function (response) {
                             return response.json();
                         })
                         .then(function (data) {
-
-                            console.log(data)
-
-                            var compCard = data.competitiveStats.awards.cards
-                            var compMedals = data.competitiveStats.awards.medals
-                            var compBronze = data.competitiveStats.awards.medalsBronze
-                            var compSilver = data.competitiveStats.awards.medalsSilver
-                            var compGold = data.competitiveStats.awards.medalsGold
-                            var compGamesPlayed = data.competitiveStats.games.played
-                            var compGamesWon = data.competitiveStats.games.won
-
-
-
-                            var quickCards = data.quickPlayStats.awards.cards
-                            var quickMedals = data.quickPlayStats.awards.medals
-                            var quickBronze = data.quickPlayStats.awards.medalsBronze
-                            var quickSilver = data.quickPlayStats.awards.medalsSilver
-                            var quickGold = data.quickPlayStats.awards.medalsGold
-                            var quickGamesPlayed = data.quickPlayStats.games.played
-                            var quickGamesWon = data.quickPlayStats.games.won
-
+                          
+                          function List(elem,data){
+                            
+                            console.log(elem)
+                           console.log(data)
+                            for( let i=0; i <data.length; i++){
+                              const li = document.createElement("li");
+                              li.textContent= data[i];
+                              elem.appendChild(li);
+                            }
+                          }
+                          var things = document.getElementById('list');
+                          List(things,[compCard ="Competition cards: " + data.competitiveStats.awards.cards,
+                                       compMedals= "Competition medals: " + data.competitiveStats.awards.medals,
+                                       compBronze= "Comp Bronze Medals: " + data.competitiveStats.awards.medalsBronze, 
+                                       compSilver= "Comp Silver Medals: " + data.competitiveStats.awards.medalsSilver, 
+                                       compGold= "Comp Glod Medals: " + data.competitiveStats.awards.medalsGold,
+                                       compGamesPlayed= "Competition Games Played: " + data.competitiveStats.games.played, 
+                                       compGamesWon= "Competition Games Won: " + data.competitiveStats.games.won,
+                                       quickCards = "Quick Player Cards: " + data.quickPlayStats.awards.cards,
+                                       quickMedals = "Quick Player Medals: " + data.quickPlayStats.awards.medals,
+                                       quickBronze = "Quick Player Bronze Medals: " + data.quickPlayStats.awards.medalsBronze,
+                                       quickSilver = "Quick Player Silver Medals: " + data.quickPlayStats.awards.medalsSilver,
+                                       quickGold = "Quick Player Gold Medals: " + data.quickPlayStats.awards.medalsGold,
+                                       quickGamesPlayed = "Quick Play Matches Played: " +data.quickPlayStats.games.played,
+                                       quickGamesWon = "Quick Play Matches Won: " +data.quickPlayStats.games.won
+                                     ]);
                         })
                 }
 
 
-            })
-    }
-}
+            }//)
+    //}
+//}
