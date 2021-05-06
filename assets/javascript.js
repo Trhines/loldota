@@ -55,7 +55,7 @@ modalBg.addEventListener('click', () => {
   });
 
   function getOw() {
-    var url = ('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
+    var url = (`https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete`)
 
     fetch(url)
         .then(function (response) {
@@ -64,22 +64,28 @@ modalBg.addEventListener('click', () => {
         .then(function (data) {
 
             console.log(data)
-        var myList = document.getElementById("list")
-        var newItem = document.createElement("compCard")
-          myList.appendChild(newItem)
+        
+         function List(elem,data){
+          console.log(elem)
+         console.log(data)
+          for( let i=0; i <data.length; i++){
+            const li = document.createElement("li");
+            li.textContent= data[i];
+            elem.appendChild(li);
+          }
+        }
+         const things = document.getElementById('list');
+       List(things,[compCard ="cards: " + data.competitiveStats.awards.cards,
+                    compMedals= "medals: " + data.competitiveStats.awards.medals,
+                    compBronze= "Broze Medals: " + data.competitiveStats.awards.medalsBronze, 
+                    compSilver= "Silver Medals: " + data.competitiveStats.awards.medalsSilver, 
+                    compGold= "Glod Medals: " + data.competitiveStats.awards.medalsGold,
+                    compGamesPlayed= "Competition Games Played: " + data.competitiveStats.games.played, 
+                    compGamesWon= "Competition Games Won: " + data.competitiveStats.games.won
+                  ]);
 
 
-        var compCard = data.competitiveStats.awards.cards
-            document.getElementById("list" ).innerText ="cards: " + compCard
-            var compMedals = data.competitiveStats.awards.medals
-            document.getElementById("list").innerHTML = "medals: " + compMedals
-            var compBronze = data.competitiveStats.awards.medalsBronze
-            //document.getElementById("compBronze").innerHTML = "bronze medals: " + compBronze
             
-            var compSilver = data.competitiveStats.awards.medalsSilver
-            var compGold = data.competitiveStats.awards.medalsGold
-            var compGamesPlayed = data.competitiveStats.games.played
-            var compGamesWon = data.competitiveStats.games.won
             
             
             var quickCards = data.quickPlayStats.awards.cards
@@ -92,7 +98,4 @@ modalBg.addEventListener('click', () => {
  
           })}
 
-
- 
-
-  
+          
