@@ -99,3 +99,24 @@ function getAPI() {
 
         });
 }
+
+const menu = document.getElementById('dropdown');
+menu.addEventListener('click', e => {
+    e.stopPropagation();
+    menu.classList.toggle('is-active')
+})
+document.addEventListener('click', () => {
+    menu.classList.remove('is-active')
+})
+const dropItem = document.querySelectorAll(".dropdown-item")
+const button = document.querySelector(".button")
+
+
+dropItem.forEach(o => {
+    o.addEventListener("click", () => {
+        console.log(o)
+        button.innerHTML = o.textContent
+        menu.classList.remove('is-active')
+    })
+})
+
