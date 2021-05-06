@@ -100,6 +100,7 @@ function getAPI() {
         });
 }
 
+// when clicked, button will dropdown
 const menu = document.getElementById('dropdown');
 menu.addEventListener('click', e => {
     e.stopPropagation();
@@ -120,3 +121,5 @@ dropItem.forEach(o => {
     })
 })
 
+// function that calls the api for each video game
+function 
