@@ -13,55 +13,19 @@ localStorage.setItem('searchHistory', JSON.stringify(searches))
 const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
-let userName = "";
+
+
 
 submitButton.addEventListener("click", (event) => {
     event.preventDefault()
+    getOw()
     searchInput = document.getElementById('input')
     searches = JSON.parse(localStorage.getItem('searchHistory'))
     searches.unshift(searchInput.value)
 
-    //create function that dynamically pulls api data
-    populateModal(searchInput.value)  
 
-    localStorage.setItem('searchHistory', searches)
-    
-
+    localStorage.setItem('searchHistory', JSON.stringify(searches))
     modal.classList.add('is-active');
-    userName = $("#searchBar").val();
-    const isOw = $("#overwatch").prop('checked');
-    console.log(isOw)
-    if(isOw === "overwatch"){
-      fetch(`https://ow-api.com/v1/stats/pc/us/${userName}/complete`)
-      .then(function (response) {
-        return response.json();
-        
-      })
-      .then(function (data) {
-        var compCard = data.competitiveStats.awards.cards
-    var compMedals = data.competitiveStats.awards.medals
-    var compBronze = data.competitiveStats.awards.medalsBronze
-    var compSilver = data.competitiveStats.awards.medalsSilver
-    var compGold = data.competitiveStats.awards.medalsGold
-    var compGamesPlayed = data.competitiveStats.games.played
-    var compGamesWon = data.competitiveStats.games.won
-
-    var quickCards = data.quickPlayStats.awards.cards
-    var quickMedals = data.quickPlayStats.awards.medals
-    var quickBronze = data.quickPlayStats.awards.medalsBronze
-    var quickSilver = data.quickPlayStats.awards.medalsSilver
-    var quickGold = data.quickPlayStats.awards.medalsGold
-    var quickGamesPlayed = data.quickPlayStats.games.played
-    var quickGamesWon = data.quickPlayStats.games.won
-
-
-        $('#stats').text('Leaderboard; ' + data.competitiveStats.careerStats.allHeroes.average.allDamageDoneAvgPer10Min) 
-      }
-      )
-    } else{
-      // this where dota goes
-    }
-    
 });
 
 modalBg.addEventListener('click', () => {
@@ -90,38 +54,45 @@ modalBg.addEventListener('click', () => {
     var wins = data.data.stats.all.overall.wins
   });
 
-//create variable for name and number //input format will be NAME#123456
-var url = ('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
+  function getOw() {
+    var url = ('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
 
-fetch(url)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
+    fetch(url)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
 
-    console.log(data)
-
-    var compCard = data.competitiveStats.awards.cards
-    var compMedals = data.competitiveStats.awards.medals
-    var compBronze = data.competitiveStats.awards.medalsBronze
-    var compSilver = data.competitiveStats.awards.medalsSilver
-    var compGold = data.competitiveStats.awards.medalsGold
-    var compGamesPlayed = data.competitiveStats.games.played
-    var compGamesWon = data.competitiveStats.games.won
-
-    var quickCards = data.quickPlayStats.awards.cards
-    var quickMedals = data.quickPlayStats.awards.medals
-    var quickBronze = data.quickPlayStats.awards.medalsBronze
-    var quickSilver = data.quickPlayStats.awards.medalsSilver
-    var quickGold = data.quickPlayStats.awards.medalsGold
-    var quickGamesPlayed = data.quickPlayStats.games.played
-    var quickGamesWon = data.quickPlayStats.games.won
+            console.log(data)
+        var myList = document.getElementById("list")
+        var newItem = document.createElement("compCard")
+          myList.appendChild(newItem)
 
 
-  });
+        var compCard = data.competitiveStats.awards.cards
+            document.getElementById("list" ).innerText ="cards: " + compCard
+            var compMedals = data.competitiveStats.awards.medals
+            document.getElementById("list").innerHTML = "medals: " + compMedals
+            var compBronze = data.competitiveStats.awards.medalsBronze
+            //document.getElementById("compBronze").innerHTML = "bronze medals: " + compBronze
+            
+            var compSilver = data.competitiveStats.awards.medalsSilver
+            var compGold = data.competitiveStats.awards.medalsGold
+            var compGamesPlayed = data.competitiveStats.games.played
+            var compGamesWon = data.competitiveStats.games.won
+            
+            
+            var quickCards = data.quickPlayStats.awards.cards
+            var quickMedals = data.quickPlayStats.awards.medals
+            var quickBronze = data.quickPlayStats.awards.medalsBronze
+            var quickSilver = data.quickPlayStats.awards.medalsSilver
+            var quickGold = data.quickPlayStats.awards.medalsGold
+            var quickGamesPlayed = data.quickPlayStats.games.played
+            var quickGamesWon = data.quickPlayStats.games.won
+ 
+          })}
 
 
+ 
 
-
-
-//fetch(`https://ow-api.com/v1/stats/pc/${region}/${userName}/complete`)
+  
