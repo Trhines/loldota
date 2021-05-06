@@ -37,15 +37,24 @@ submitButton.addEventListener("click", (event) => {
         return response.json();
         
       })
-      
-    
       .then(function (data) {
-        console.log(data)
-        console.log(data.competitiveStats);
-        console.log(data.competitiveStats.careerStats.allHeroes.average.allDamageDoneAvgPer10Min);
-        console.log(data.gamesWon)//.eliminationsAvgPer10Min)
-        console.log(data.competitiveStats.careerStats.allHeroes)
-        console.log(data.quickPlayStats.games)
+        var compCard = data.competitiveStats.awards.cards
+    var compMedals = data.competitiveStats.awards.medals
+    var compBronze = data.competitiveStats.awards.medalsBronze
+    var compSilver = data.competitiveStats.awards.medalsSilver
+    var compGold = data.competitiveStats.awards.medalsGold
+    var compGamesPlayed = data.competitiveStats.games.played
+    var compGamesWon = data.competitiveStats.games.won
+
+    var quickCards = data.quickPlayStats.awards.cards
+    var quickMedals = data.quickPlayStats.awards.medals
+    var quickBronze = data.quickPlayStats.awards.medalsBronze
+    var quickSilver = data.quickPlayStats.awards.medalsSilver
+    var quickGold = data.quickPlayStats.awards.medalsGold
+    var quickGamesPlayed = data.quickPlayStats.games.played
+    var quickGamesWon = data.quickPlayStats.games.won
+
+
         $('#stats').text('Leaderboard; ' + data.competitiveStats.careerStats.allHeroes.average.allDamageDoneAvgPer10Min) 
       }
       )
@@ -59,9 +68,6 @@ modalBg.addEventListener('click', () => {
     modal.classList.remove('is-active');
 })
 
-function printStats(profileName, leaderBoard, MMR, SoloComp, compRank, gamesWon, gamesLost, winRate) {
-
-}
 
 //replace deyy with a variable for search input
   fetch('https://fortnite-api.com/v1/stats/br/v2?name=deyy')
@@ -92,48 +98,7 @@ fetch(url)
     return response.json();
   })
   .then(function (data) {
-    
-<<<<<<< HEAD
-//     console.log(data[1].name)
-//   });
-  //-------------------------------------------------------------------------------------------
 
-  
-
-function searchProPlayers(searchInput){
-    fetch('https://api.opendota.com/api/proPlayers?api_key=6eb1beea-905d-4e5d-96b4-e90090e00a0a')
-    .then(function (response) {
-      return response.json();
-    })
-    //.then(function (data) {
-      //console.log(data)
-    // var// found = false
-       // wh//ile(!found){
-         // fo//r( i=0; i<100; i++){
-           // co//nsole.log(searchInput)
-              //if//(data[i].name === searchInput){
-                  //console.log('hit')
-                 // found = true   
-              //}
-          //}
-         // for( i=1001; i<2000; i++){
-           // console.log(searchInput)
-             // if(data[i].name === searchInput){
-               //   console.log('hit')
-                 // found = true   
-       / //      }
-        / //// }
-         // /for( i=2001; i<data.length; i++){
-           // console.log(searchInput)
-            //  if(data[i].name === searchInput){
-             //     console.log('hit')
-              //    found = true   
-              }//
-          //}
-        //}
-    //});
-//}
-=======
     console.log(data)
 
     var compCard = data.competitiveStats.awards.cards
@@ -151,7 +116,7 @@ function searchProPlayers(searchInput){
     var quickGold = data.quickPlayStats.awards.medalsGold
     var quickGamesPlayed = data.quickPlayStats.games.played
     var quickGamesWon = data.quickPlayStats.games.won
->>>>>>> 82814786f6878044820116b47243ac40cd7eb7ca
+
 
   });
 
