@@ -8,32 +8,19 @@ var input = document.querySelector("#input")
 
 onRefresh()
 populateTable()
-var gametype = 'ovw'
 
 
 const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
 
-submitButton.addEventListener("click", (event) => 
-    event.preventDefault()
-    searchInput = document.getElementById('input');
+submitButton.addEventListener("click", (event) => {
+    var searchInput = document.getElementById('input');
     var chooseGame = document.querySelector(".button")
-    console.log()
     callAPI(chooseGame.textContent, searchInput.value);
-    searches = JSON.parse(localStorage.getItem('searchHistory'))
-    searches.unshift(searchInput.value)
 
-    //create function that dynamically pulls api data
-    // populateModal(searchInput.value)
-
-    localStorage.setItem('searchHistory', JSON.stringify(searches))
-
-    //event.preventDefault()
-    searchInput = document.getElementById('input')
     var displayed = false
-    updateHistory(searchInput.value, gametype, displayed)
-    //retreives histroy, adds new search, and updates storage
+    updateHistory(searchInput.value, chooseGame.textContent, displayed)
 
     modal.classList.add('is-active');
     populateTable()
@@ -42,6 +29,28 @@ submitButton.addEventListener("click", (event) =>
 
 modalBg.addEventListener('click', () => {
     modal.classList.remove('is-active');
+})
+
+// when clicked, button will dropdown
+const menu = document.getElementById('dropdown');
+menu.addEventListener('click', e => {
+    e.preventDefault()
+    e.stopPropagation();
+    menu.classList.toggle('is-active')
+})
+document.addEventListener('click', () => {
+    menu.classList.remove('is-active')
+})
+const dropItem = document.querySelectorAll(".dropdown-item")
+const button = document.querySelector(".button")
+
+
+dropItem.forEach(o => {
+    o.addEventListener("click", (event) => {
+        console.log(o)
+        button.textContent = o.textContent
+        menu.classList.remove('is-active')
+    })
 })
 
 
@@ -76,10 +85,8 @@ function updateHistory(name, game, shown){
 
 function populateTable(){
   tableContent = JSON.parse(localStorage.getItem('searchHistory'))
-  //replace console log with loop that appends new elements to dom
   var table = document.getElementById('tableBody')
   
-
   tableContent.forEach(element => {
     if (element.shown == false){
     var newRow = document.createElement("TR")
@@ -94,43 +101,18 @@ function populateTable(){
   })
 }
 
-
-        });
-}
-
-// when clicked, button will dropdown
-const menu = document.getElementById('dropdown');
-menu.addEventListener('click', e => {
-    e.stopPropagation();
-    menu.classList.toggle('is-active')
-})
-document.addEventListener('click', () => {
-    menu.classList.remove('is-active')
-})
-const dropItem = document.querySelectorAll(".dropdown-item")
-const button = document.querySelector(".button")
-
-
-dropItem.forEach(o => {
-    o.addEventListener("click", () => {
-        console.log(o)
-        button.textContent = o.textContent
-        menu.classList.remove('is-active')
-    })
-})
-
 // function that calls the api for each video game
 function callAPI(game, search) {
-    console.log(typeof game)
+    console.log(game)
+
     if (game == "Fortnite") {
-        //call fortnire api
-        console.log("something")
+        
         fetch(`https://fortnite-api.com/v1/stats/br/v2?name=${search}`)
             .then(function (response) {
                 return response.json();
             })
             .then(function (data) {
-                console.log(data);
+                console.log(data)
                 for (var i = 0; i < data.length; i++) {
                     var name = data.data.account.name
                     var deaths = data.data.stats.all.overall.deaths
@@ -149,9 +131,8 @@ function callAPI(game, search) {
                 }
                 if (game === "Overwatch") {
                     //call overwatch api
-                    var url = ('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
 
-                    fetch(url)
+                    fetch('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
                         .then(function (response) {
                             return response.json();
                         })
