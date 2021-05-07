@@ -16,17 +16,31 @@ const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
 const modalContent = document.querySelector(".modal-content")
 
-submitButton.addEventListener("click", (event) => {
-    event.preventDefault()
-    var searchInput = document.getElementById('input');
-    var chooseGame = document.querySelector(".chooseGame")
-    callAPI(chooseGame.textContent, searchInput.value.trim());
 
-    var displayed = false
-    updateHistory(searchInput.value, chooseGame.textContent, displayed)
+
+submitButton.addEventListener("click", (event) => {
+  event.preventDefault()
+  var searchInput = document.getElementById('input');
+  var chooseGame = document.querySelector(".button")
+  callAPI(chooseGame.textContent, searchInput.value.trim());
+
+  var displayed = false
+  updateHistory(searchInput.value, chooseGame.textContent, displayed)
+
+  localStorage.setItem('searchHistory', JSON.stringify(searches))
+  modal.classList.add('is-active');
+
+  modalContent.classList.remove('fortnite', true)
+  modalContent.classList.remove('overwatch', true)
+  if (chooseGame === 'Fortnite') {
+    modalContent.classList.add('fortnite')
+  } else {
+    modalContent.classList.add('overwatch')
+  }
 
     localStorage.setItem('searchHistory', JSON.stringify(searches))
     modal.classList.add('is-active');
+  
     generateUrl(chooseGame.textContent, searchInput.value)
     colorModal()
 
@@ -39,71 +53,72 @@ submitButton.addEventListener("click", (event) => {
     updateTable()
 
 
+
 });
 
-  modalBg.addEventListener('click', () => {
-    modal.classList.remove('is-active');
-    
-   while (document.getElementById('list').firstChild){
-     document.getElementById('list').removeChild(document.getElementById('list').lastChild)
-   }
+modalBg.addEventListener('click', () => {
+  modal.classList.remove('is-active');
 
-    
+  while (document.getElementById('list').firstChild) {
+    document.getElementById('list').removeChild(document.getElementById('list').lastChild)
+  }
+
+
 
 })
 
 // when clicked, button will dropdown
 const menu = document.getElementById('dropdown');
 menu.addEventListener('click', e => {
-    e.preventDefault()
-    e.stopPropagation();
-    menu.classList.toggle('is-active')
+  e.preventDefault()
+  e.stopPropagation();
+  menu.classList.toggle('is-active')
 })
 document.addEventListener('click', () => {
-    menu.classList.remove('is-active')
+  menu.classList.remove('is-active')
 })
 
 
 dropItem.forEach(o => {
-    o.addEventListener("click", (event) => {
-        console.log(o)
-        button.textContent = o.textContent
-        menu.classList.remove('is-active')
-        
-        console.log(dropItem)
-    })
+  o.addEventListener("click", (event) => {
+    console.log(o)
+    button.textContent = o.textContent
+    menu.classList.remove('is-active')
+
+    console.log(dropItem)
+  })
 })
 
 const resetBtn = document.getElementById('reset')
-resetBtn.addEventListener('click', function(event){
-    array = JSON.parse(localStorage.getItem('searchHistory'))
-    array = []
-    localStorage.setItem('searchHistory', JSON.stringify(array))
-    var table = document.getElementById("tableBody")
-        while(table.firstChild){
-            table.removeChild(table.lastChild)
-        }
-    })
+resetBtn.addEventListener('click', function (event) {
+  array = JSON.parse(localStorage.getItem('searchHistory'))
+  array = []
+  localStorage.setItem('searchHistory', JSON.stringify(array))
+  var table = document.getElementById("tableBody")
+  while (table.firstChild) {
+    table.removeChild(table.lastChild)
+  }
+})
 
 
 //creates storage array if one does not exist already
 function onRefresh() {
-    if (!localStorage.getItem('searchHistory')) {
-        searches = []
-        localStorage.setItem('searchHistory', JSON.stringify(searches))
-        console.log('created array')
-    }
-    else {
-        console.log('array exists')
+  if (!localStorage.getItem('searchHistory')) {
+    searches = []
+    localStorage.setItem('searchHistory', JSON.stringify(searches))
+    console.log('created array')
+  }
+  else {
+    console.log('array exists')
 
-        data = JSON.parse(localStorage.getItem('searchHistory'))
+    data = JSON.parse(localStorage.getItem('searchHistory'))
 
-      data.forEach(element => {
-        element.shown = false
-        localStorage.setItem('searchHistory', JSON.stringify(data))
-      })
+    data.forEach(element => {
+      element.shown = false
+      localStorage.setItem('searchHistory', JSON.stringify(data))
+    })
 
-    }
+  }
 }
 
 //updates histroy in local storage, pass in new string
@@ -113,13 +128,15 @@ function updateHistory(name, game, shown) {
     var newObj = { name, game, shown}
     searches.unshift(newObj)
     localStorage.setItem('searchHistory', JSON.stringify(searches))
+
 }
 
-function populateTable(){
+function populateTable() {
   tableContent = JSON.parse(localStorage.getItem('searchHistory'))
   var table = document.getElementById('tableBody')
-  
+
   tableContent.forEach(element => {
+    
     if (element.shown == false){
     var newRow = document.createElement("TR")
     var tableName = document.createElement("TD")
@@ -150,6 +167,7 @@ function populateTable(){
     searchBtn.textContent = "Search"
     element.shown = true
     localStorage.setItem('searchHistory', JSON.stringify(tableContent))
+
     }
   })
 }
@@ -158,7 +176,7 @@ function updateTable(){
   console.log("update")
   tableContent = JSON.parse(localStorage.getItem('searchHistory'))
   var table = document.getElementById('tableBody')
-  
+
   tableContent.forEach(element => {
     if (element.shown == false){
     var newRow = document.createElement("TR")
@@ -181,20 +199,6 @@ function updateTable(){
       }
     })
 
-    // tableGame.addEventListener("click", function(event){
-    //   console.log("clicked")
-    //   event.preventDefault()
-    //   callAPI(element.game, element.name)
-    //   modal.classList.add('is-active');
-    //   colorModal()
-    //   if (element.game === 'Fortnite') {
-    //     modalContent.classList.add('fortnite')
-    //   } 
-    //   else {
-    //     modalContent.classList.add('overwatch')
-    //   }
-    // })
-
     if(!table.firstChild){
       table.appendChild(newRow)
     }
@@ -209,6 +213,7 @@ function updateTable(){
     searchBtn.textContent = "Search"
     element.shown = true
     localStorage.setItem('searchHistory', JSON.stringify(tableContent))
+
     }
   })
 
@@ -310,6 +315,7 @@ function generateUrl(game, name){
   else{
     document.getElementById("compare").setAttribute('href', 'compare.html?='+game+'/'+name)
   }
+
 }
 
 onRefresh()
