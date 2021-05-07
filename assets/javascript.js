@@ -14,7 +14,7 @@ const button = document.querySelector(".button")
 const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
-
+const modalContent = document.querySelector(".modal-content")
 submitButton.addEventListener("click", (event) => {
     event.preventDefault()
     var searchInput = document.getElementById('input');
@@ -26,6 +26,7 @@ submitButton.addEventListener("click", (event) => {
 
     localStorage.setItem('searchHistory', JSON.stringify(searches))
     modal.classList.add('is-active');
+
   
     modalContent.classList.remove('fortnite', true)
     modalContent.classList.remove('overwatch', true)
@@ -153,6 +154,7 @@ function populateTable(){
 }
 
 function updateTable(){
+  console.log("update")
   tableContent = JSON.parse(localStorage.getItem('searchHistory'))
   var table = document.getElementById('tableBody')
   
