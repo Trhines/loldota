@@ -67,6 +67,18 @@ dropItem.forEach(o => {
     })
 })
 
+const resetBtn = document.getElementById('reset')
+resetBtn.addEventListener('click', function(event){
+    array = JSON.parse(localStorage.getItem('searchHistory'))
+    array = []
+    localStorage.setItem('searchHistory', JSON.stringify(array))
+    var table = document.getElementById("tableBody")
+        while(table.firstChild){
+            table.removeChild(table.lastChild)
+        }
+    })
+
+
 
 
 //creates storage array if one does not exist already
@@ -120,6 +132,7 @@ function callAPI(game, search) {
     
 
     if (game == "Fortnite" ) {
+
         
         fetch(`https://fortnite-api.com/v1/stats/br/v2?name=${search}`)
             .then(function (response) {
@@ -136,6 +149,7 @@ function callAPI(game, search) {
                     elem.appendChild(li);
                   }
                 }
+
                 var things = document.getElementById('list');
                 List(things,[names = "name: " + data.data.account.name,
                              deaths= "Deaths: " + data.data.stats.all.overall.deaths,
@@ -159,6 +173,14 @@ function callAPI(game, search) {
             console.log(game)
                     fetch(`https://ow-api.com/v1/stats/pc/us/${user}/complete`)
                     
+
+                if (game == "Overwatch") {
+                    //call overwatch api
+                    //search gets two parts
+                    //name = user
+                    //id = number
+                    fetch('https://ow-api.com/v1/stats/pc/us/'+name+'-'+id+'/complete')
+
                         .then(function (response) {
                             return response.json();
                         })
