@@ -171,16 +171,7 @@ function callAPI(game, search) {
                             var user =  search.replace('#' ,'-' ) 
                     //call overwatch api
             console.log(game)
-                    fetch(`https://ow-api.com/v1/stats/pc/us/${user}/complete`)
-                    
-
-                if (game == "Overwatch") {
-                    //call overwatch api
-                    //search gets two parts
-                    //name = user
-                    //id = number
-                    fetch('https://ow-api.com/v1/stats/pc/us/'+name+'-'+id+'/complete')
-
+                       fetch(`https://ow-api.com/v1/stats/pc/us/${user}/complete`)
                         .then(function (response) {
                             return response.json();
                         })
