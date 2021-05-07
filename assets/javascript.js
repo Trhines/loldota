@@ -21,7 +21,7 @@ submitButton.addEventListener("click", (event) => {
     event.preventDefault()
     var searchInput = document.getElementById('input');
     var chooseGame = document.querySelector(".button")
-    callAPI(chooseGame.textContent, searchInput.value);
+    callAPI(chooseGame.textContent, searchInput.value.trim());
 
     var displayed = false
     updateHistory(searchInput.value, chooseGame.textContent, displayed)
@@ -194,7 +194,7 @@ function updateTable(){
 
 // function that calls the api for each video game
 function callAPI(game, search) {
-    console.log(search)
+    
 
     if (game == "Fortnite" ) {
 
@@ -216,7 +216,7 @@ function callAPI(game, search) {
                 }
 
                 var things = document.getElementById('list');
-                List(things,[name = "name: " + data.data.account.name,
+                List(things,[names = "name: " + data.data.account.name,
                              deaths= "Deaths: " + data.data.stats.all.overall.deaths,
                              kd = "k/d: " + data.data.stats.all.overall.kd,
                              kills = "kills: " + data.data.stats.all.overall.kills,
@@ -233,18 +233,11 @@ function callAPI(game, search) {
                           
                           }
                           else if (game == "Overwatch") {
+                            var user =  search.replace('#' ,'-' ) 
                     //call overwatch api
             console.log(game)
-                    fetch(`https://ow-api.com/v1/stats/pc/us/${search}/complete`)
-                    
 
-                if (game == "Overwatch") {
-                    //call overwatch api
-                    //search gets two parts
-                    //name = user
-                    //id = number
-                    fetch(`https://ow-api.com/v1/stats/pc/us/${search}/complete`)
-
+                       fetch(`https://ow-api.com/v1/stats/pc/us/${user}/complete`)
                         .then(function (response) {
                             return response.json();
                         })
