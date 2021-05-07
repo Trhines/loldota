@@ -1,4 +1,4 @@
-//to get from local use localStorage.getitem('name')
+// new push
 
 
 // modal
@@ -6,36 +6,35 @@ var input = document.querySelector("#input")
 
 
 
-onRefresh()
-var gametype = 'ovw'
-
+// onRefresh()
+// populateTable()
+const dropItem = document.querySelectorAll(".dropdown-item")
+const button = document.querySelector(".button")
 
 const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
-
-submitButton.addEventListener("click", (event) =>
+const modalContent = document.querySelector(".modal-content")
+submitButton.addEventListener("click", (event) => {
     event.preventDefault()
-    searchInput = document.getElementById('input');
-var chooseGame = document.querySelector(".button")
-console.log()
-callAPI(chooseGame.textContent, searchInput.value);
-searches = JSON.parse(localStorage.getItem('searchHistory'))
-searches.unshift(searchInput.value)
+    var searchInput = document.getElementById('input');
+    console.log(event.target)
+    var chooseGame = button.textContent;
+    callAPI(chooseGame.textContent, searchInput.value);
 
-//create function that dynamically pulls api data
-// populateModal(searchInput.value)
+    var displayed = false
+    updateHistory(searchInput.value, chooseGame.textContent, displayed)
 
-localStorage.setItem('searchHistory', JSON.stringify(searches))
+    modal.classList.add('is-active');
+    modalContent.classList.remove('fortnite', true)
+    modalContent.classList.remove('overwatch', true)
+    if (chooseGame === 'Fortnite') {
+        modalContent.classList.add('fortnite')
+    } else {
+        modalContent.classList.add('overwatch')
+    }
 
-//event.preventDefault()
-searchInput = document.getElementById('input')
-var newObj = { name: searchInput.value, game: gametype }
-updateHistory(searchInput.value, gametype)
-//retreives histroy, adds new search, and updates storage
-
-modal.classList.add('is-active');
-populateTable()
+    populateTable()
 
 });
 
@@ -43,98 +42,87 @@ modalBg.addEventListener('click', () => {
     modal.classList.remove('is-active');
 })
 
-
-//create variable for name and number //input format will be NAME#123456
-function getAPI() {
-    var url = ('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
-
-    fetch(url)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-
-            console.log(data)
-
-            var compCard = data.competitiveStats.awards.cards
-            var compMedals = data.competitiveStats.awards.medals
-            var compBronze = data.competitiveStats.awards.medalsBronze
-            var compSilver = data.competitiveStats.awards.medalsSilver
-            var compGold = data.competitiveStats.awards.medalsGold
-            var compGamesPlayed = data.competitiveStats.games.played
-            var compGamesWon = data.competitiveStats.games.won
-
-
-            var quickCards = data.quickPlayStats.awards.cards
-            var quickMedals = data.quickPlayStats.awards.medals
-            var quickBronze = data.quickPlayStats.awards.medalsBronze
-            var quickSilver = data.quickPlayStats.awards.medalsSilver
-            var quickGold = data.quickPlayStats.awards.medalsGold
-            var quickGamesPlayed = data.quickPlayStats.games.played
-            var quickGamesWon = data.quickPlayStats.games.won
-
-            //creates storage array if one does not exist already
-            function onRefresh() {
-                if (!localStorage.getItem('searchHistory')) {
-                    searches = []
-                    localStorage.setItem('searchHistory', JSON.stringify(searches))
-                    console.log('created array')
-                }
-                else {
-                    console.log('array exists')
-                    return;
-                }
-            }
-            //updates histroy in local storage, pass in new string
-            //add dupe checking
-            function updateHistory(newEntry) {
-                searches = JSON.parse(localStorage.getItem('searchHistory'))
-                searches.unshift(newEntry)
-                localStorage.setItem('searchHistory', JSON.stringify(searches))
-            }
-
-            function populateTable() {
-                tableContent = JSON.parse(localStorage.getItem('searchHistory'))
-                //replace console log with loop that appends new elements to dom
-
-                tableContent.forEach(element => console.log(element))
-
-            });
-}
-
 // when clicked, button will dropdown
 const menu = document.getElementById('dropdown');
 menu.addEventListener('click', e => {
+    e.preventDefault()
     e.stopPropagation();
     menu.classList.toggle('is-active')
 })
 document.addEventListener('click', () => {
     menu.classList.remove('is-active')
 })
-const dropItem = document.querySelectorAll(".dropdown-item")
-const button = document.querySelector(".button")
+
 
 
 dropItem.forEach(o => {
-    o.addEventListener("click", () => {
+    o.addEventListener("click", (event) => {
         console.log(o)
         button.textContent = o.textContent
         menu.classList.remove('is-active')
     })
 })
 
+
+
+//creates storage array if one does not exist already
+function onRefresh() {
+    if (!localStorage.getItem('searchHistory')) {
+        searches = []
+        localStorage.setItem('searchHistory', JSON.stringify(searches))
+        console.log('created array')
+    }
+    else {
+        console.log('array exists')
+
+        data = JSON.parse(localStorage.getItem('searchHistory'))
+
+        data.forEach(element => {
+            element.shown = false
+            console.log(data)
+        })
+    }
+}
+//updates histroy in local storage, pass in new string
+//add dupe checking
+function updateHistory(name, game, shown) {
+    searches = JSON.parse(localStorage.getItem('searchHistory'))
+    var newObj = { name, game, shown }
+    searches.unshift(newObj)
+    localStorage.setItem('searchHistory', JSON.stringify(searches))
+}
+
+
+function populateTable() {
+    tableContent = JSON.parse(localStorage.getItem('searchHistory'))
+    var table = document.getElementById('tableBody')
+
+    tableContent.forEach(element => {
+        if (element.shown == false) {
+            var newRow = document.createElement("TR")
+            var tableName = document.createElement("TD")
+            var tableGame = document.createElement("TD")
+            table.appendChild(newRow)
+            newRow.appendChild(tableName)
+            tableName.textContent = element.name
+            newRow.appendChild(tableGame)
+            tableGame.textContent = element.game
+        }
+    })
+}
+
 // function that calls the api for each video game
 function callAPI(game, search) {
-    console.log(typeof game)
+    console.log(game)
+
     if (game == "Fortnite") {
-        //call fortnire api
-        console.log("something")
+
         fetch(`https://fortnite-api.com/v1/stats/br/v2?name=${search}`)
             .then(function (response) {
                 return response.json();
             })
             .then(function (data) {
-                console.log(data);
+                console.log(data)
                 for (var i = 0; i < data.length; i++) {
                     var name = data.data.account.name
                     var deaths = data.data.stats.all.overall.deaths
@@ -153,9 +141,8 @@ function callAPI(game, search) {
                 }
                 if (game === "Overwatch") {
                     //call overwatch api
-                    var url = ('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
 
-                    fetch(url)
+                    fetch('https://ow-api.com/v1/stats/pc/us/Snapshot-11568/complete')
                         .then(function (response) {
                             return response.json();
                         })
@@ -188,3 +175,5 @@ function callAPI(game, search) {
             })
     }
 }
+onRefresh()
+populateTable()
