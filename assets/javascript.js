@@ -9,16 +9,17 @@ var input = document.querySelector("#input")
 // onRefresh()
 // populateTable()
 const dropItem = document.querySelectorAll(".dropdown-item")
-const button = document.querySelector(".button")
+const button = document.querySelector(".chooseGame")
 
 const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
 const modalContent = document.querySelector(".modal-content")
+
 submitButton.addEventListener("click", (event) => {
     event.preventDefault()
     var searchInput = document.getElementById('input');
-    var chooseGame = document.querySelector(".button")
+    var chooseGame = document.querySelector(".chooseGame")
     callAPI(chooseGame.textContent, searchInput.value.trim());
 
     var displayed = false
@@ -26,16 +27,14 @@ submitButton.addEventListener("click", (event) => {
 
     localStorage.setItem('searchHistory', JSON.stringify(searches))
     modal.classList.add('is-active');
+    generateUrl(chooseGame.textContent, searchInput.value)
+    colorModal()
 
-  
-    modalContent.classList.remove('fortnite', true)
-    modalContent.classList.remove('overwatch', true)
-    if (chooseGame === 'Fortnite') {
-        modalContent.classList.add('fortnite')
-    } else {
-        modalContent.classList.add('overwatch')
-    }
-
+    if (chooseGame.textContent === 'Fortnite') {
+      modalContent.classList.add('fortnite')
+  } else {
+      modalContent.classList.add('overwatch')
+  }
    
     updateTable()
 
@@ -65,7 +64,6 @@ document.addEventListener('click', () => {
 })
 
 
-
 dropItem.forEach(o => {
     o.addEventListener("click", (event) => {
         console.log(o)
@@ -88,8 +86,6 @@ resetBtn.addEventListener('click', function(event){
     })
 
 
-
-
 //creates storage array if one does not exist already
 function onRefresh() {
     if (!localStorage.getItem('searchHistory')) {
@@ -109,11 +105,12 @@ function onRefresh() {
 
     }
 }
+
 //updates histroy in local storage, pass in new string
 //add dupe checking
 function updateHistory(name, game, shown) {
     searches = JSON.parse(localStorage.getItem('searchHistory'))
-    var newObj = { name, game, shown }
+    var newObj = { name, game, shown}
     searches.unshift(newObj)
     localStorage.setItem('searchHistory', JSON.stringify(searches))
 }
@@ -127,19 +124,21 @@ function populateTable(){
     var newRow = document.createElement("TR")
     var tableName = document.createElement("TD")
     var tableGame = document.createElement("TD")
+    var searchBtn = document .createElement("BUTTON")
 
-    tableName.addEventListener("click", function(event){
+    searchBtn.addEventListener("click", function(event){
       console.log("clicked")
       event.preventDefault()
       callAPI(element.game, element.name)
       modal.classList.add('is-active');
-    })
-
-    tableGame.addEventListener("click", function(event){
-      console.log("clicked")
-      event.preventDefault()
-      callAPI(element.game, element.name)
-      modal.classList.add('is-active');
+      colorModal()
+      generateUrl(element.game, element.name)
+      if (element.game === 'Fortnite') {
+        modalContent.classList.add('fortnite')
+      } 
+      else {
+        modalContent.classList.add('overwatch')
+      }
     })
 
     table.appendChild(newRow)
@@ -147,6 +146,8 @@ function populateTable(){
     tableName.textContent = element.name
     newRow.appendChild(tableGame)
     tableGame.textContent = element.game
+    newRow.appendChild(searchBtn)
+    searchBtn.textContent = "Search"
     element.shown = true
     localStorage.setItem('searchHistory', JSON.stringify(tableContent))
     }
@@ -163,20 +164,36 @@ function updateTable(){
     var newRow = document.createElement("TR")
     var tableName = document.createElement("TD")
     var tableGame = document.createElement("TD")
+    var searchBtn = document .createElement("BUTTON")
 
-    tableName.addEventListener("click", function(event){
+    searchBtn.addEventListener("click", function(event){
       console.log("clicked")
       event.preventDefault()
       callAPI(element.game, element.name)
       modal.classList.add('is-active');
+      colorModal()
+      generateUrl(element.game, element.name)
+      if (element.game === 'Fortnite') {
+        modalContent.classList.add('fortnite')
+      } 
+      else {
+        modalContent.classList.add('overwatch')
+      }
     })
 
-    tableGame.addEventListener("click", function(event){
-      console.log("clicked")
-      event.preventDefault()
-      callAPI(element.game, element.name)
-      modal.classList.add('is-active');
-    })
+    // tableGame.addEventListener("click", function(event){
+    //   console.log("clicked")
+    //   event.preventDefault()
+    //   callAPI(element.game, element.name)
+    //   modal.classList.add('is-active');
+    //   colorModal()
+    //   if (element.game === 'Fortnite') {
+    //     modalContent.classList.add('fortnite')
+    //   } 
+    //   else {
+    //     modalContent.classList.add('overwatch')
+    //   }
+    // })
 
     if(!table.firstChild){
       table.appendChild(newRow)
@@ -188,6 +205,8 @@ function updateTable(){
     tableName.textContent = element.name.trim()
     newRow.appendChild(tableGame)
     tableGame.textContent = element.game
+    newRow.appendChild(searchBtn)
+    searchBtn.textContent = "Search"
     element.shown = true
     localStorage.setItem('searchHistory', JSON.stringify(tableContent))
     }
@@ -276,6 +295,22 @@ function callAPI(game, search) {
 
 
             }
+function colorModal(){
+  modalContent.classList.remove('fortnite', true)
+  modalContent.classList.remove('overwatch', true)
+
+}
+
+function generateUrl(game, name){
+  console.log('generating url')
+  if (game == "Overwatch") {
+    var user =  name.replace('#' ,'-' )
+    document.getElementById("compare").setAttribute('href', 'compare.html?='+game+'/'+user)
+  }
+  else{
+    document.getElementById("compare").setAttribute('href', 'compare.html?='+game+'/'+name)
+  }
+}
 
 onRefresh()
 populateTable()
