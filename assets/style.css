@@ -1,7 +1,14 @@
 html{
-    background: black;
+    background-color: black;
 }
 
+.overwatch{
+background-color: orange !important;
+}
+
+.fortnite{
+    background-color: blue !important;
+}
 .stats{
     color: white;
 }

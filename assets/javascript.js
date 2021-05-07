@@ -1,4 +1,3 @@
-//to get from local use localStorage.getitem('name')
 // new push
 
 
@@ -7,15 +6,14 @@ var input = document.querySelector("#input")
 
 
 
-onRefresh()
-populateTable()
-
+// onRefresh()
+// populateTable()
+const dropItem = document.querySelectorAll(".dropdown-item")
+const button = document.querySelector(".button")
 
 const submitButton = document.querySelector("#submit");
 const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
-
-
 
 submitButton.addEventListener("click", (event) => {
     event.preventDefault()
@@ -28,7 +26,18 @@ submitButton.addEventListener("click", (event) => {
 
     localStorage.setItem('searchHistory', JSON.stringify(searches))
     modal.classList.add('is-active');
+  
+    modalContent.classList.remove('fortnite', true)
+    modalContent.classList.remove('overwatch', true)
+    if (chooseGame === 'Fortnite') {
+        modalContent.classList.add('fortnite')
+    } else {
+        modalContent.classList.add('overwatch')
+    }
+
+   
     updateTable()
+
 
 });
 
@@ -53,8 +62,7 @@ menu.addEventListener('click', e => {
 document.addEventListener('click', () => {
     menu.classList.remove('is-active')
 })
-const dropItem = document.querySelectorAll(".dropdown-item")
-const button = document.querySelector(".button")
+
 
 
 dropItem.forEach(o => {
@@ -82,41 +90,33 @@ resetBtn.addEventListener('click', function(event){
 
 
 //creates storage array if one does not exist already
-function onRefresh(){
-    if(!localStorage.getItem('searchHistory')){
-      searches = []
-      localStorage.setItem('searchHistory', JSON.stringify(searches))
-      console.log('created array')
+function onRefresh() {
+    if (!localStorage.getItem('searchHistory')) {
+        searches = []
+        localStorage.setItem('searchHistory', JSON.stringify(searches))
+        console.log('created array')
     }
-    else{
-      console.log('array exists')
+    else {
+        console.log('array exists')
 
-      data = JSON.parse(localStorage.getItem('searchHistory'))
+        data = JSON.parse(localStorage.getItem('searchHistory'))
 
       data.forEach(element => {
         element.shown = false
         localStorage.setItem('searchHistory', JSON.stringify(data))
       })
+
     }
 }
-  //updates histroy in local storage, pass in new string
-  //add dupe checking
-function updateHistory(name, game, shown){
-  searches = JSON.parse(localStorage.getItem('searchHistory'))
-  var newObj = {name, game, shown}
-  searches.unshift(newObj)
-  localStorage.setItem('searchHistory', JSON.stringify(searches))
+//updates histroy in local storage, pass in new string
+//add dupe checking
+function updateHistory(name, game, shown) {
+    searches = JSON.parse(localStorage.getItem('searchHistory'))
+    var newObj = { name, game, shown }
+    searches.unshift(newObj)
+    localStorage.setItem('searchHistory', JSON.stringify(searches))
 }
 
-// dropItem.forEach(o => {
-//   o.addEventListener("click", (event) => {
-//       console.log(o)
-//       button.textContent = o.textContent
-//       menu.classList.remove('is-active')
-      
-//       console.log(dropItem)
-//   })
-// })
 function populateTable(){
   tableContent = JSON.parse(localStorage.getItem('searchHistory'))
   var table = document.getElementById('tableBody')
@@ -190,6 +190,7 @@ function updateTable(){
     localStorage.setItem('searchHistory', JSON.stringify(tableContent))
     }
   })
+
 }
 
 // function that calls the api for each video game
@@ -198,7 +199,6 @@ function callAPI(game, search) {
 
     if (game == "Fortnite" ) {
 
-        
         fetch(`https://fortnite-api.com/v1/stats/br/v2?name=${search}`)
             .then(function (response) {
                 return response.json();
@@ -274,4 +274,6 @@ function callAPI(game, search) {
 
 
             }
-}
+
+onRefresh()
+populateTable()
