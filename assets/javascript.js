@@ -28,7 +28,7 @@ submitButton.addEventListener("click", (event) => {
 
     localStorage.setItem('searchHistory', JSON.stringify(searches))
     modal.classList.add('is-active');
-    populateTable()
+    updateTable()
 
 });
 
@@ -95,7 +95,7 @@ function onRefresh(){
 
       data.forEach(element => {
         element.shown = false
-        console.log(data)
+        localStorage.setItem('searchHistory', JSON.stringify(data))
       })
     }
 }
@@ -108,7 +108,15 @@ function updateHistory(name, game, shown){
   localStorage.setItem('searchHistory', JSON.stringify(searches))
 }
 
-
+// dropItem.forEach(o => {
+//   o.addEventListener("click", (event) => {
+//       console.log(o)
+//       button.textContent = o.textContent
+//       menu.classList.remove('is-active')
+      
+//       console.log(dropItem)
+//   })
+// })
 function populateTable(){
   tableContent = JSON.parse(localStorage.getItem('searchHistory'))
   var table = document.getElementById('tableBody')
@@ -118,11 +126,68 @@ function populateTable(){
     var newRow = document.createElement("TR")
     var tableName = document.createElement("TD")
     var tableGame = document.createElement("TD")
+
+    tableName.addEventListener("click", function(event){
+      console.log("clicked")
+      event.preventDefault()
+      callAPI(element.game, element.name)
+      modal.classList.add('is-active');
+    })
+
+    tableGame.addEventListener("click", function(event){
+      console.log("clicked")
+      event.preventDefault()
+      callAPI(element.game, element.name)
+      modal.classList.add('is-active');
+    })
+
     table.appendChild(newRow)
     newRow.appendChild(tableName)
     tableName.textContent = element.name
     newRow.appendChild(tableGame)
     tableGame.textContent = element.game
+    element.shown = true
+    localStorage.setItem('searchHistory', JSON.stringify(tableContent))
+    }
+  })
+}
+
+function updateTable(){
+  tableContent = JSON.parse(localStorage.getItem('searchHistory'))
+  var table = document.getElementById('tableBody')
+  
+  tableContent.forEach(element => {
+    if (element.shown == false){
+    var newRow = document.createElement("TR")
+    var tableName = document.createElement("TD")
+    var tableGame = document.createElement("TD")
+
+    tableName.addEventListener("click", function(event){
+      console.log("clicked")
+      event.preventDefault()
+      callAPI(element.game, element.name)
+      modal.classList.add('is-active');
+    })
+
+    tableGame.addEventListener("click", function(event){
+      console.log("clicked")
+      event.preventDefault()
+      callAPI(element.game, element.name)
+      modal.classList.add('is-active');
+    })
+
+    if(!table.firstChild){
+      table.appendChild(newRow)
+    }
+    else{
+      table.insertBefore(newRow, table.firstChild)
+    }
+    newRow.appendChild(tableName)
+    tableName.textContent = element.name.trim()
+    newRow.appendChild(tableGame)
+    tableGame.textContent = element.game
+    element.shown = true
+    localStorage.setItem('searchHistory', JSON.stringify(tableContent))
     }
   })
 }
@@ -178,7 +243,7 @@ function callAPI(game, search) {
                     //search gets two parts
                     //name = user
                     //id = number
-                    fetch('https://ow-api.com/v1/stats/pc/us/'+name+'-'+id+'/complete')
+                    fetch(`https://ow-api.com/v1/stats/pc/us/${search}/complete`)
 
                         .then(function (response) {
                             return response.json();
@@ -215,6 +280,5 @@ function callAPI(game, search) {
                 }
 
 
-            }//)
-    //}
-//}
+            }
+}
