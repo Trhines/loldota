@@ -16,6 +16,7 @@ const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
 const modalContent = document.querySelector(".modal-content")
 
+
 submitButton.addEventListener("click", (event) => {
   event.preventDefault()
   var searchInput = document.getElementById('input');
@@ -36,6 +37,18 @@ submitButton.addEventListener("click", (event) => {
     modalContent.classList.add('overwatch')
   }
 
+    localStorage.setItem('searchHistory', JSON.stringify(searches))
+    modal.classList.add('is-active');
+
+  
+    modalContent.classList.remove('fortnite', true)
+    modalContent.classList.remove('overwatch', true)
+    if (chooseGame === 'Fortnite') {
+        modalContent.classList.add('fortnite')
+    } else {
+        modalContent.classList.add('overwatch')
+    }
+  
 
   updateTable()
 
@@ -153,7 +166,8 @@ function populateTable() {
   })
 }
 
-function updateTable() {
+function updateTable(){
+  console.log("update")
   tableContent = JSON.parse(localStorage.getItem('searchHistory'))
   var table = document.getElementById('tableBody')
 
