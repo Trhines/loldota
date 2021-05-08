@@ -142,17 +142,38 @@ function CompareStats(){
     if(listTwo[1] != null){
 
         for (i = 0; i<listOne.length; i ++){
-            var val_1 = listOne[i].textContent.split(":")[1].trim()
-            var val_2 = listTwo[i].textContent.split(":")[1].trim()
-            if(val_1 > val_2){
+            var val_1 = listOne[i].textContent.split(":")[1]
+            var val_2 = listTwo[i].textContent.split(":")[1]
+            if(val_1 / val_2 > 1){
+                console.log(val_1 / val_2)
+                listOne[i].classList.remove('same-stat')
+                listTwo[i].classList.remove('same-stat')
+                listOne[i].classList.remove('higher-stat')
+                listTwo[i].classList.remove('lower-stat')
+                listOne[i].classList.remove('lower-stat')
+                listTwo[i].classList.remove('higher-stat')
                 listOne[i].classList.add('higher-stat')
                 listTwo[i].classList.add('lower-stat')
             }
-            if(val_1 < val_2){
+            if(val_1 / val_2 < 1){
+                console.log(val_1)
+                console.log(val_2)
+                listOne[i].classList.remove('same-stat')
+                listTwo[i].classList.remove('same-stat')
+                listOne[i].classList.remove('higher-stat')
+                listTwo[i].classList.remove('lower-stat')
+                listOne[i].classList.remove('lower-stat')
+                listTwo[i].classList.remove('higher-stat')
                 listOne[i].classList.add('lower-stat')
                 listTwo[i].classList.add('higher-stat')
             }
             if(val_1 == val_2){
+                console.log(val_1)
+                console.log(val_2)
+                listOne[i].classList.remove('higher-stat')
+                listTwo[i].classList.remove('lower-stat')
+                listOne[i].classList.remove('lower-stat')
+                listTwo[i].classList.remove('higher-stat')
                 listOne[i].classList.add('same-stat')
                 listTwo[i].classList.add('same-stat')
             }

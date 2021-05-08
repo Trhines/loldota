@@ -216,7 +216,7 @@ function updateTable(){
 }
 
 // function that calls the api for each video game
-function callAPI(game, search) {
+function callAPI(game, search){
     
 
     if (game == "Fortnite" ) {
@@ -253,7 +253,6 @@ function callAPI(game, search) {
                              top5 = "Top 5: " + data.data.stats.all.overall.top5,
                              top10 = "Top 10: " + data.data.stats.all.overall.top10,
                              top25 = "Top 25: " + data.data.stats.all.overall.top25,
-                             winrate = "WinRate: " + data.data.stats.all.overall.winrate,
                              wins = "Overll Wins: " + data.data.stats.all.overall.wins
                            ])});
                           
