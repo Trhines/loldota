@@ -39,3 +39,30 @@ table{
     display:flex;
     justify-content: right;
 }
+
+.gameType{
+    display:flex;
+    align-items: center;
+    justify-content: right;
+    margin-left: 1em;
+}
+
+#game{
+    text-align: center;
+    font-size: 3.5em;
+    font-weight: bolder;
+}
+
+.higher-stat{
+    color: green;
+}
+.lower-stat{
+    color:#d20e0e;
+}
+.same-stat{
+    color:black;
+    
+}
+li{
+    padding:.3em;
+}
