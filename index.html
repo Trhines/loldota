@@ -10,17 +10,11 @@
 </head>
 
 <body>
-    <div class="column">
+    <div class = 'container justify-center'>
+    <div class="column is-one-third">
         <div class="card pt-10">
-            <div class="card-image">
-
-            </div>
             <div class="card-content">
-                <div class="media">
-                    <div class="media-left">
-
-
-                    </div>
+                <div class="media jusify-center">
                     <form>
                         <div class="media-content">
                             <label for="playerName">User Name:</label><br>
@@ -28,7 +22,7 @@
                             <div class="dropdown" id="dropdown">
                                 <div class="dropdown-trigger">
                                     <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu">
-                                        <span class="chooseGame">Choose Game</span>
+                                        <span class="chooseGame">Fortnite</span>
                                         <span class="icon is-small">
                                             <i class="fas fa-angle-down" aria-hidden="true"></i>
                                         </span>
@@ -38,34 +32,26 @@
                                     <div class="dropdown-content">
                                         <a href="#" class="dropdown-item">Fortnite</a>
                                         <a class="dropdown-item">Overwatch</a>
-
                                     </div>
                                 </div>
                             </div>
                             <button class="button is-small" id="submit">Submit</button><br>
                         </div>
                     </form>
-
-                </div>
-
-                <div class="content">
-
                 </div>
             </div>
         </div>
     </div>
     </div>
-    </div>
-    </div>
     </section>
 
-    <section>
-        <button class="button is-white" id = "reset">White</button>
-        <table class='table is-striped is-fullwidth'>
+    <section class = 'container justify-center is-one-fourth'>
+        <table class='table is-striped is-fullwidth is-hoverable'>
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Game</th>
+                    <th><button class = "button is-small justify-right" id = "reset">Clear</button><th>
                 </tr>
             </thead>
             <tbody id="tableBody">
@@ -79,10 +65,10 @@
                 <ul id="list" class="stats" style="line-height: 180%">
                     
                 </ul>
+                <a id ="compare">Compare Stats</a>
             </div>
         </div>
     </div>
-    <script src="./assets/javascript.js"></script
+    <script src="./assets/javascript.js"></script>
 </body>
-
 </html>

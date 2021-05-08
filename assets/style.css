@@ -1,6 +1,7 @@
 html{
     background-color: black;
-background-image: linear-gradient(315deg, #2d3436 0%, #000000 74%);
+background-image: linear-gradient(315deg, #f58c53 0%, #ffffff, #00d4ff 74%);
+    
 }
 
 .overwatch{
@@ -16,4 +17,27 @@ background-color: orange !important;
 
 table{
     margin: 2em
+}
+
+.justify-center{
+    display:flex;
+    justify-content: center;
+}
+
+.x-margin{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.width{
+    max-width: 80%;
+}
+
+.history{
+    padding: 2em;
+    margin: 2em;
+}
+
+.justify-right{
+    display:flex;
+    justify-content: right;
 }
