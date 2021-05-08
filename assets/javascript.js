@@ -118,14 +118,15 @@ function updateHistory(name, game, shown) {
 function populateTable(){
   tableContent = JSON.parse(localStorage.getItem('searchHistory'))
   var table = document.getElementById('tableBody')
-  
+  console.log(table)
   tableContent.forEach(element => {
     if (element.shown == false){
     var newRow = document.createElement("TR")
     var tableName = document.createElement("TD")
     var tableGame = document.createElement("TD")
+    var btnHolder = document.createElement("TD")
     var searchBtn = document .createElement("BUTTON")
-
+    
     searchBtn.addEventListener("click", function(event){
       console.log("clicked")
       event.preventDefault()
@@ -140,15 +141,20 @@ function populateTable(){
         modalContent.classList.add('overwatch')
       }
     })
+
     table.appendChild(newRow)
     newRow.appendChild(tableName)
     tableName.textContent = element.name.trim()
+
     newRow.appendChild(tableGame)
     tableGame.textContent = element.game
-    tableGame.appendChild(searchBtn)
+
+    newRow.appendChild(btnHolder)
+    btnHolder.appendChild(searchBtn)
+    searchBtn.textContent = "Search"
     searchBtn.classList.add("button")
     searchBtn.classList.add("is-small")
-    searchBtn.textContent = "Search"
+
     element.shown = true
     localStorage.setItem('searchHistory', JSON.stringify(tableContent))
     }
@@ -165,6 +171,7 @@ function updateTable(){
     var newRow = document.createElement("TR")
     var tableName = document.createElement("TD")
     var tableGame = document.createElement("TD")
+    var btnHolder = document.createElement("TD")
     var searchBtn = document .createElement("BUTTON")
 
     searchBtn.addEventListener("click", function(event){
@@ -174,6 +181,7 @@ function updateTable(){
       modal.classList.add('is-active');
       colorModal()
       generateUrl(element.game, element.name)
+
       if (element.game === 'Fortnite') {
         modalContent.classList.add('fortnite')
       } 
@@ -190,9 +198,13 @@ function updateTable(){
     }
     newRow.appendChild(tableName)
     tableName.textContent = element.name.trim()
+
     newRow.appendChild(tableGame)
     tableGame.textContent = element.game
-    tableGame.appendChild(searchBtn)
+
+    newRow.appendChild(btnHolder)
+    btnHolder.appendChild(searchBtn)
+
     searchBtn.textContent = "Search"
     searchBtn.classList.add("button")
     searchBtn.classList.add("is-small")

@@ -46,25 +46,17 @@
     </section>
 
     <section class = 'container justify-center is-one-fourth'>
-        <div class ='card pt-10 history'>
-            <div class = 'columns'>
-                <div class = 'column'>
-                    <p>Name</p>
-                </div>
-                <div class = 'column'>
-                    <p>Game</p>
-                </div>
-                <div class = 'column'>
-                    <button class ='button is-small'>Clear</button>'
-                </div>
-            </div>
-            <div class = 'columns tableBody'>
-
-            </div>
-        </div>
-
-            <!-- <tbody id="tableBody">
-            </tbody> -->
+        <table class='table is-striped is-fullwidth is-hoverable'>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Game</th>
+                    <th><button class = "button is-small justify-right" id = "reset">Clear</button><th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
     </section>
 
     <div class="modal">
@@ -77,6 +69,6 @@
             </div>
         </div>
     </div>
-    <script src="./assets/javascript.js"></script
+    <script src="./assets/javascript.js"></script>
 </body>
 </html>

@@ -34,3 +34,8 @@ table{
     padding: 2em;
     margin: 2em;
 }
+
+.justify-right{
+    display:flex;
+    justify-content: right;
+}
