@@ -33,7 +33,12 @@ function callAPI(game, search, card) {
 
         fetch(`https://fortnite-api.com/v1/stats/br/v2?name=${search}`)
             .then(function (response) {
-                return response.json();
+                if (response.status !== 200) {
+                    alert("error." + response.status);
+                    location.reload()
+                  } else {
+                  }
+                  return response.json();
             })
             .then(function (data) {
                 console.log(data)
@@ -75,8 +80,12 @@ function callAPI(game, search, card) {
 
                         fetch(`https://ow-api.com/v1/stats/pc/us/${user}/complete`)
                             .then(function (response) {
-                                
-                                return response.json();
+                                if (response.status !== 200) {
+                                    alert("error." + response.status);
+                                    location.reload()
+                                  } else {
+                                  }
+                                  return response.json();
                             })
                             .then(function (data) {
                             
@@ -117,18 +126,25 @@ function callAPI(game, search, card) {
 function CompareStats(){
     listOne = firstCard.children
     listTwo = secondCard.children
+    console.log(listTwo)
+    if(listTwo[1] != null){
 
-    for (i = 0; i<listOne.length; i ++){
-        var val_1 = listOne[i].textContent.split(":")[1].trim()
-        var val_2 = listTwo[i].textContent.split(":")[1].trim()
-        if(val_1 > val_2){
-            console.log("val_1 is bigger")
-        }
-        if(val_1 < val_2){
-            console.log("val_2 is bigger")
-        }
-        if(val_1 == val_2){
-            console.log("same")
+        for (i = 0; i<listOne.length; i ++){
+            var val_1 = listOne[i].textContent.split(":")[1].trim()
+            var val_2 = listTwo[i].textContent.split(":")[1].trim()
+            if(val_1 > val_2){
+                console.log("val_1 is bigger")
+            }
+            if(val_1 < val_2){
+                console.log("val_2 is bigger")
+            }
+            if(val_1 == val_2){
+                console.log("same")
+            }
         }
     }
+    else{
+        return;
+    }
+
 }

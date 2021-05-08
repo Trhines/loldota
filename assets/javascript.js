@@ -16,31 +16,17 @@ const modalBg = document.querySelector(".modal-background");
 const modal = document.querySelector(".modal");
 const modalContent = document.querySelector(".modal-content")
 
-
-
 submitButton.addEventListener("click", (event) => {
-  event.preventDefault()
-  var searchInput = document.getElementById('input');
-  var chooseGame = document.querySelector(".button")
-  callAPI(chooseGame.textContent, searchInput.value.trim());
+    event.preventDefault()
+    var searchInput = document.getElementById('input');
+    var chooseGame = document.querySelector(".chooseGame")
+    callAPI(chooseGame.textContent, searchInput.value.trim());
 
-  var displayed = false
-  updateHistory(searchInput.value, chooseGame.textContent, displayed)
-
-  localStorage.setItem('searchHistory', JSON.stringify(searches))
-  modal.classList.add('is-active');
-
-  modalContent.classList.remove('fortnite', true)
-  modalContent.classList.remove('overwatch', true)
-  if (chooseGame === 'Fortnite') {
-    modalContent.classList.add('fortnite')
-  } else {
-    modalContent.classList.add('overwatch')
-  }
+    var displayed = false
+    updateHistory(searchInput.value, chooseGame.textContent, displayed)
 
     localStorage.setItem('searchHistory', JSON.stringify(searches))
     modal.classList.add('is-active');
-  
     generateUrl(chooseGame.textContent, searchInput.value)
     colorModal()
 
@@ -53,72 +39,71 @@ submitButton.addEventListener("click", (event) => {
     updateTable()
 
 
-
 });
 
-modalBg.addEventListener('click', () => {
-  modal.classList.remove('is-active');
+  modalBg.addEventListener('click', () => {
+    modal.classList.remove('is-active');
+    
+   while (document.getElementById('list').firstChild){
+     document.getElementById('list').removeChild(document.getElementById('list').lastChild)
+   }
 
-  while (document.getElementById('list').firstChild) {
-    document.getElementById('list').removeChild(document.getElementById('list').lastChild)
-  }
-
-
+    
 
 })
 
 // when clicked, button will dropdown
 const menu = document.getElementById('dropdown');
 menu.addEventListener('click', e => {
-  e.preventDefault()
-  e.stopPropagation();
-  menu.classList.toggle('is-active')
+    e.preventDefault()
+    e.stopPropagation();
+    menu.classList.toggle('is-active')
 })
 document.addEventListener('click', () => {
-  menu.classList.remove('is-active')
+    menu.classList.remove('is-active')
 })
 
 
 dropItem.forEach(o => {
-  o.addEventListener("click", (event) => {
-    console.log(o)
-    button.textContent = o.textContent
-    menu.classList.remove('is-active')
-
-    console.log(dropItem)
-  })
+    o.addEventListener("click", (event) => {
+        console.log(o)
+        button.textContent = o.textContent
+        menu.classList.remove('is-active')
+        
+        console.log(dropItem)
+    })
 })
 
 const resetBtn = document.getElementById('reset')
-resetBtn.addEventListener('click', function (event) {
-  array = JSON.parse(localStorage.getItem('searchHistory'))
-  array = []
-  localStorage.setItem('searchHistory', JSON.stringify(array))
-  var table = document.getElementById("tableBody")
-  while (table.firstChild) {
-    table.removeChild(table.lastChild)
-  }
-})
+resetBtn.addEventListener('click', function(event){
+    array = JSON.parse(localStorage.getItem('searchHistory'))
+    array = []
+    localStorage.setItem('searchHistory', JSON.stringify(array))
+    var table = document.getElementById("tableBody")
+        while(table.firstChild){
+            table.removeChild(table.lastChild)
+        }
+    })
 
 
 //creates storage array if one does not exist already
 function onRefresh() {
-  if (!localStorage.getItem('searchHistory')) {
-    searches = []
-    localStorage.setItem('searchHistory', JSON.stringify(searches))
-    console.log('created array')
-  }
-  else {
-    console.log('array exists')
+    if (!localStorage.getItem('searchHistory')) {
+        searches = []
+        localStorage.setItem('searchHistory', JSON.stringify(searches))
+        console.log('created array')
+    }
+    else {
+        console.log('array exists')
 
-    data = JSON.parse(localStorage.getItem('searchHistory'))
+        data = JSON.parse(localStorage.getItem('searchHistory'))
 
-    data.forEach(element => {
-      element.shown = false
-      localStorage.setItem('searchHistory', JSON.stringify(data))
-    })
+      data.forEach(element => {
+        element.shown = false
+        localStorage.setItem('searchHistory', JSON.stringify(data))
+      })
 
-  }
+    }
 }
 
 //updates histroy in local storage, pass in new string
@@ -128,15 +113,13 @@ function updateHistory(name, game, shown) {
     var newObj = { name, game, shown}
     searches.unshift(newObj)
     localStorage.setItem('searchHistory', JSON.stringify(searches))
-
 }
 
-function populateTable() {
+function populateTable(){
   tableContent = JSON.parse(localStorage.getItem('searchHistory'))
   var table = document.getElementById('tableBody')
-
+  
   tableContent.forEach(element => {
-    
     if (element.shown == false){
     var newRow = document.createElement("TR")
     var tableName = document.createElement("TD")
@@ -157,17 +140,17 @@ function populateTable() {
         modalContent.classList.add('overwatch')
       }
     })
-
     table.appendChild(newRow)
     newRow.appendChild(tableName)
-    tableName.textContent = element.name
+    tableName.textContent = element.name.trim()
     newRow.appendChild(tableGame)
     tableGame.textContent = element.game
-    newRow.appendChild(searchBtn)
+    tableGame.appendChild(searchBtn)
+    searchBtn.classList.add("button")
+    searchBtn.classList.add("is-small")
     searchBtn.textContent = "Search"
     element.shown = true
     localStorage.setItem('searchHistory', JSON.stringify(tableContent))
-
     }
   })
 }
@@ -176,7 +159,7 @@ function updateTable(){
   console.log("update")
   tableContent = JSON.parse(localStorage.getItem('searchHistory'))
   var table = document.getElementById('tableBody')
-
+  
   tableContent.forEach(element => {
     if (element.shown == false){
     var newRow = document.createElement("TR")
@@ -209,11 +192,12 @@ function updateTable(){
     tableName.textContent = element.name.trim()
     newRow.appendChild(tableGame)
     tableGame.textContent = element.game
-    newRow.appendChild(searchBtn)
+    tableGame.appendChild(searchBtn)
     searchBtn.textContent = "Search"
+    searchBtn.classList.add("button")
+    searchBtn.classList.add("is-small")
     element.shown = true
     localStorage.setItem('searchHistory', JSON.stringify(tableContent))
-
     }
   })
 
@@ -224,10 +208,14 @@ function callAPI(game, search) {
     
 
     if (game == "Fortnite" ) {
-
         fetch(`https://fortnite-api.com/v1/stats/br/v2?name=${search}`)
             .then(function (response) {
-                return response.json();
+              if (response.status !== 200) {
+                alert("error." + response.status);
+                location.reload()
+              } else {
+              }
+              return response.json()
             })
             .then(function (data) {
                 console.log(data)
@@ -265,7 +253,12 @@ function callAPI(game, search) {
 
                        fetch(`https://ow-api.com/v1/stats/pc/us/${user}/complete`)
                         .then(function (response) {
-                            return response.json();
+                          if (response.status !== 200) {
+                            alert("error." + response.status);
+                            location.reload()
+                          } else {
+                          }
+                          return response.json();
                         })
                         .then(function (data) {
                           
@@ -315,7 +308,6 @@ function generateUrl(game, name){
   else{
     document.getElementById("compare").setAttribute('href', 'compare.html?='+game+'/'+name)
   }
-
 }
 
 onRefresh()
